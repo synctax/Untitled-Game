@@ -98,6 +98,3 @@ GLuint ShaderProgram::loadShader(const char* vPath, const char* fPath){
 
 	return ProgramID;
 }
-
-
-

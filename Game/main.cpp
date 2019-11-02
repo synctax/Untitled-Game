@@ -97,6 +97,11 @@ int main(){
     myTriangle.setVAO(cubeVAO);
     myTriangle.createShader("simple.vs","simple.fs");
 
+    Renderable myTriangle2 = Renderable();
+    myTriangle2.setVAO(cubeVAO);
+    myTriangle2.createShader("simple.vs","simple.fs");
+    myTriangle2.translate(-2.0, 0.0, 0.0);
+
     while(!myWindow.closed()){
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LESS);
@@ -105,9 +110,13 @@ int main(){
         myWindow.clear();
         //myTriangle.rotate(0,0.001,0);
 
-        //myCamera.rotate(0,0.0001);
+        myCamera.rotate(0,0.0001);
 
         myTriangle.render(myCamera.getProjectionMatrix());
+	
+	//myTriangle.translate(-1.0, 0.0, 0.0);
+
+	myTriangle2.render(myCamera.getProjectionMatrix());	
 
         myWindow.update();
 
