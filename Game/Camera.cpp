@@ -1,17 +1,24 @@
 #include "Camera.hpp"
 
-Camera::Camera(float x, float y, float z, float vAngle, float hAngle){
+Camera::Camera(float x, float y, float z, float vAngle, float hAngle, float _width, float _height){
     position = glm::vec3(x,y,z);
     FOV = 90;
     viewDirection = glm::vec3(cos(vAngle) * sin(hAngle),
                               sin(vAngle),
                               cos(vAngle) * cos(hAngle));
+    width = _width; height = _height;
     calculateProjectionMatrix();
 }
 
 void Camera::setFOV(float fov){
     FOV = fov;
     calculateProjectionMatrix();
+}
+
+void Camera::updateAspect(float _width, float _height){
+    width = _width;
+    height = _height;
+    calculateProjectionMatrix();	
 }
 
 void Camera::translate(float x, float y, float z){
@@ -42,9 +49,8 @@ void Camera::calculateProjectionMatrix(){
                                     glm::vec3(0,1,0));
 
     glm::mat4 pMatrix = glm::perspective(glm::radians(FOV),
-                                         4.0f / 3.0f,
+                                         width / height,
                                          0.1f,
                                          100.0f);
-
     projectionMatrix = pMatrix*vMatrix;
 }

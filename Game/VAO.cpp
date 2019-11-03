@@ -30,16 +30,29 @@ void VAO::addBuffer(int attrib, GLfloat* data, int entries, int entrySize){
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     unbind();
 
-    if (attrib == 0) vertexCount = entries;
+    //if (attrib == 0) vertexCount = entries;
 
     vbos.push_back(vbo);
     attribs.push_back(attrib);
 }
 
+void VAO::addElementBuffer(GLshort* data, int entries){
+    
+    vertexCount = entries;    
+ 
+    bind();
+    glGenBuffers(1, &ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, entries*sizeof(GLshort), data, GL_STATIC_DRAW);
+    unbind();
+}
+
 void VAO::draw() const{
     bind();
     enableAttribs();
-    glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+    //the vao stores the element buffer, so there is no need to bind that here
+    glDrawElements(GL_TRIANGLES, vertexCount, GL_UNSIGNED_SHORT, 0);
     disableAttribs();
     unbind();
 }

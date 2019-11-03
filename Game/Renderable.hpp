@@ -14,6 +14,7 @@ public:
 
     void setVAO(VAO* _vao);
     void createShader(const char* vPath, const char* fPath);
+    void setShaderProgram(ShaderProgram* program);    
 
     void scale(float x, float y, float z);
     void translate(float x, float y, float z);

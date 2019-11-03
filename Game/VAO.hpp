@@ -13,11 +13,13 @@ private:
     int vertexCount;
     std::vector<GLuint> vbos;
     std::vector<int> attribs;
+    GLuint ebo;
 public:
     VAO();
     ~VAO();
     inline GLuint getID() const {return vaoID;};
     void addBuffer(int attrib, GLfloat* data, int entries, int entrySize);
+    void addElementBuffer(GLshort* data, int entries);
     void draw() const;
     void enableAttribs() const;
     void disableAttribs() const;

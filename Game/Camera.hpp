@@ -13,10 +13,13 @@ private:
     glm::vec3 position;
     glm::vec3 viewDirection;
     float FOV;
+
+    float width, height;
 public:
-    Camera(float x, float y, float z, float vAngle, float hAngle);
+    Camera(float x, float y, float z, float vAngle, float hAngle, float _width, float _height);
 
     void setFOV(float fov);
+    void updateAspect(float _width, float _height);
 
     void translate(float x, float y, float z);
     void setPosition(float x, float y, float z);

@@ -24,6 +24,10 @@ Window::Window(const char* title, int _width, int _height){
         glfwTerminate();
     }
     glfwMakeContextCurrent(window);
+     
+    glfwSetWindowUserPointer(window, this);
+
+    glfwSetWindowSizeCallback(window, resize_callback);
 
     if (glewInit() != GLEW_OK) {
         fprintf(stderr, "Failed to initialize GLEW\n");
@@ -37,4 +41,10 @@ void Window::update() const {
 
 void Window::clear() const {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void resize_callback(GLFWwindow* window, int width, int height){
+    Window* win = (Window*)glfwGetWindowUserPointer(window);
+    win->width = width;
+    win->height = height;
 }

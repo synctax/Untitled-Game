@@ -12,6 +12,10 @@ void Renderable::createShader(const char* vPath, const char* fPath){
     shaderProgram = new ShaderProgram(vPath,fPath);
 }
 
+void Renderable::setShaderProgram(ShaderProgram* program){
+    shaderProgram = program;
+}
+
 void Renderable::translate(float x, float y, float z){
     modelMatrix = glm::translate(modelMatrix, glm::vec3(x,y,z));
 }
