@@ -21,6 +21,10 @@ public:
     void rotate(float x, float y, float z);
 
     void render(glm::mat4 _projectionMatrix);
+    
+    void update();
+ 
+    glm::mat4 getModelMatrix();    
 
     glm::vec3 size;
     glm::vec3 position;

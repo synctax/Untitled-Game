@@ -2,6 +2,9 @@
 #include "Renderable.hpp"
 #include "Camera.hpp"
 #include "VAO.hpp"
+#include "GameObject.hpp"
+#include "MyComponent.hpp"
+
 
 using namespace glm;
 
@@ -103,7 +106,6 @@ int main(){
        //0.820f,  0.883f,  0.371f,
        //0.982f,  0.099f,  0.879f
     };
-
     VAO* cubeVAO = new VAO();
     cubeVAO->addBuffer(0,cube_verticies,8,3);
     cubeVAO->addBuffer(1,cube_color,8,3);
@@ -111,29 +113,45 @@ int main(){
 	
     ShaderProgram simple("simple.vs", "simple.fs");    
 
-    Renderable myTriangle = Renderable();
-    myTriangle.setVAO(cubeVAO);
-    myTriangle.setShaderProgram(&simple);
+    Renderable myCube1 = Renderable();
+    myCube1.setVAO(cubeVAO);
+    myCube1.setShaderProgram(&simple);
 
-    Renderable myTriangle2 = Renderable();
-    myTriangle2.setVAO(cubeVAO);
-    myTriangle2.setShaderProgram(&simple);
-    myTriangle2.translate(-3.0, 0.0, 0.0);
+    Renderable myCube2 = Renderable();
+    myCube2.setVAO(cubeVAO);
+    myCube2.setShaderProgram(&simple);
+    myCube2.translate(-3.0, 0.0, 0.0);
+    
+    GameObject rootObject(std::string("root"), Renderable(), false, true);
+    GameObject* child1 = new GameObject(std::string("obj1"), myCube1, true, true); 
+    rootObject.addChild(child1); 
+    rootObject.addChild(new GameObject(std::string("obj2"), myCube2, true, true));
+    
+    new HopperComponent(child1, 2.0);
+    //rootObject.deleteChild(0);
+    //rootObject.renderable.rotate(0, 0.01, 0.0);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glEnable(GL_CULL_FACE);	
 
     while(!myWindow.closed()){
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS);
-        glEnable(GL_CULL_FACE);
-	
-	myCamera.updateAspect(myWindow.getWidth(), myWindow.getHeight());
+        myCamera.updateAspect(myWindow.getWidth(), myWindow.getHeight());
 	
         myWindow.clear();
-        myTriangle.rotate(0,0.001,0);
-	myTriangle.rotate(0, 0, 0.001);
+        //myTriangle.rotate(0,0.001,0);
+	//myTriangle.rotate(0, 0, 0.001);
         //myCamera.rotate(0,0.0001);
+	
+	rootObject.update();
+  
+	rootObject.lateUpdate();
+ 		
+        rootObject.renderable.rotate(0, 0.01, 0.0);
+	rootObject.render(myCamera.getProjectionMatrix());
 
-        myTriangle.render(myCamera.getProjectionMatrix());
-	myTriangle2.render(myCamera.getProjectionMatrix());	
+        //myTriangle.render(myCamera.getProjectionMatrix());
+	//myTriangle2.render(myCamera.getProjectionMatrix());	
 
         myWindow.update();
 
