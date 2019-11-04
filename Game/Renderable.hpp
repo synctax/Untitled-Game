@@ -14,13 +14,13 @@ public:
 
     void setVAO(VAO* _vao);
     void createShader(const char* vPath, const char* fPath);
-    void setShaderProgram(ShaderProgram* program);    
+    void setShaderProgram(ShaderProgram* program);
 
     void scale(float x, float y, float z);
     void translate(float x, float y, float z);
     void rotate(float x, float y, float z);
 
-    void render(glm::mat4 _projectionMatrix);
+    void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
 
     glm::vec3 size;
     glm::vec3 position;

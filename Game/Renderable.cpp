@@ -30,9 +30,10 @@ void Renderable::scale(float x, float y, float z){
     modelMatrix = glm::scale(modelMatrix, glm::vec3(x,y,z));
 }
 
-void Renderable::render(glm::mat4 _projectionMatrix){
-    projectionMatrix = _projectionMatrix*modelMatrix;
-    shaderProgram->setUniform(&projectionMatrix[0][0],"projectionMatrix");
+void Renderable::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix){
+    shaderProgram->setUniform(&modelMatrix[0][0],"M");
+    shaderProgram->setUniform(&viewMatrix[0][0],"V");
+    shaderProgram->setUniform(&projectionMatrix[0][0],"P");
     shaderProgram->start();
 
     vao->draw();
