@@ -22,6 +22,10 @@ public:
 
     void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
 
+    void update();
+
+    glm::mat4 getModelMatrix();
+
     glm::vec3 size;
     glm::vec3 position;
     glm::vec3 rotation;
