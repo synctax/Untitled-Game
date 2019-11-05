@@ -20,7 +20,7 @@ public:
     void translate(float x, float y, float z);
     void rotate(float x, float y, float z);
 
-    void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
+    void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::mat4 objectMatrix);
 
     void update();
 

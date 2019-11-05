@@ -16,14 +16,13 @@ GameObject::~GameObject(){
    }
    for(auto & component : components){
    	delete component;
-   }    
+   }
    if(parent != NULL){
    	parent->removeChild(this);
-   } 
+   }
 }
 
 void GameObject::attachComponent(Component* c){
-    std::cout << "ehllo" << std::endl;
     components.push_back(c);
 }
 
@@ -40,7 +39,7 @@ void GameObject::removeChild(GameObject* child){
     int index = 0;
     for(auto & el : children){
         if(el == child) break;
-	index++; 
+	index++;
     }
     if(index < children.size()) children.erase(children.begin() + index);
 
@@ -49,7 +48,7 @@ void GameObject::removeChild(GameObject* child){
 void GameObject::deleteChild(int index){
     if(0 <= index && index < children.size()){
          //this delete will automatically remove the child via the deconstructor
-	std::cout << children.at(index); 
+	std::cout << children.at(index);
 	delete children.at(index);
     }
 }
@@ -71,22 +70,27 @@ void GameObject::update(){
 void GameObject::lateUpdate(){
     for(auto & component : components){
         if(component->getEnabled()){
-	    component->lateUpdate();
+	        component->lateUpdate();
         }
     }
     for(auto & child : children){
-         child->update();
+        child->update();
     }
 }
 
-void GameObject::render(glm::mat4 projection){
+void GameObject::render(glm::mat4 projection,glm::mat4 view, glm::mat4 objectMatrix){
     renderable.update();
     if(isShown){
-    	renderable.render(projection);
+    	renderable.render(projection,view,objectMatrix);
     }
     for(auto & child : children){
-	if(child->isShown){
-	    child->render(projection*renderable.getModelMatrix());
-	}
+	    if(child->isShown){
+	        child->render(projection,view,objectMatrix*renderable.getModelMatrix());
+	    }
     }
+}
+
+void GameObject::render(glm::mat4 projection,glm::mat4 view){
+    render(projection,view,glm::mat4(1.0f));
+
 }

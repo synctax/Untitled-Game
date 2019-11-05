@@ -45,8 +45,9 @@ void Renderable::update(){
     modelMatrix = glm::translate(modelMatrix, position);
 }
 
-void Renderable::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix){
-    shaderProgram->setUniform(&modelMatrix[0][0],"M");
+void Renderable::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix,glm::mat4 objectMatrix){
+    glm::mat4 newModelMatrix = objectMatrix*modelMatrix;
+    shaderProgram->setUniform(&newModelMatrix[0][0],"M");
     shaderProgram->setUniform(&viewMatrix[0][0],"V");
     shaderProgram->setUniform(&projectionMatrix[0][0],"P");
     shaderProgram->start();

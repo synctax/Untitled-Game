@@ -19,7 +19,7 @@ public:
     inline int getWidth() const {return width;};
     inline int getHeight() const {return height;};
     ~Window(){};
-    
+
     friend void resize_callback(GLFWwindow* win, int width, int height);
 };
 
