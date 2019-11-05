@@ -8,11 +8,11 @@ class Component {
 public:
     Component();
     Component(GameObject* _object);
-    virtual ~Component(); 
+    virtual ~Component();
 
     virtual void update() = 0;
     virtual void lateUpdate() = 0;
-    
+
     virtual Component* clone() = 0; //this will be used to copy GameObjects
 
     bool getEnabled() {return isEnabled;}

@@ -10,6 +10,7 @@
 class Camera{
 private:
     glm::mat4 projectionMatrix;
+    glm::mat4 viewMatrix;
     glm::vec3 position;
     glm::vec3 viewDirection;
     float FOV;
@@ -29,6 +30,7 @@ public:
 
     inline glm::vec3 getViewDirection() const {return viewDirection;};
     inline glm::mat4 getProjectionMatrix() const {return projectionMatrix;};
+    inline glm::mat4 getViewMatrix() const {return viewMatrix;};
 private:
-    void calculateProjectionMatrix();
+    void calculateMatrices();
 };
