@@ -10,7 +10,7 @@ public:
     float height;
 
     HopperComponent(float _height);
-    
+
     virtual void start();
 
     virtual void update();

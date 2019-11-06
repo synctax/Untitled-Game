@@ -24,7 +24,7 @@ Window::Window(const char* title, int _width, int _height){
         glfwTerminate();
     }
     glfwMakeContextCurrent(window);
-     
+
     glfwSetWindowUserPointer(window, this);
 
     glfwSetWindowSizeCallback(window, resize_callback);

@@ -18,6 +18,7 @@ public:
     inline bool closed() const {return glfwWindowShouldClose(window) != 0;};
     inline int getWidth() const {return width;};
     inline int getHeight() const {return height;};
+    inline GLFWwindow* getWindow() const {return window;};
     ~Window(){};
 
     friend void resize_callback(GLFWwindow* win, int width, int height);

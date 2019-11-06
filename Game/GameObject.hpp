@@ -14,12 +14,12 @@ public:
     ~GameObject();
 
     void attachComponent(Component* c);
-    //not no detaching components, as a class won't be able to detach components    
+    //not no detaching components, as a class won't be able to detach components
     Component* getComponent(std::string name);
 
     void addChild(GameObject* child); //important for adding kids
     void removeChild(GameObject* child); //this function should not be called by components (it will leave children floating)
-     
+
     GameObject* getChild(int index);
     GameObject* getChild(std::string _name);
 

@@ -6,17 +6,20 @@
 #include "GameObject.hpp"
 //#include "MyComponent.hpp"
 #include "Transform.hpp"
+#include "WindowEventManager.hpp"
 
 using namespace glm;
 
 int main(){
     Window myWindow = Window("Window", 1024, 768);
+    WindowEventManager::setWindow(myWindow.getWindow());
 
-    Camera myCamera = Camera(-2,7,-15,0,0, 1024, 768);
+    Camera myCamera = Camera(-2,7,-25,0,0, 1024, 768);
+    myCamera.setFOV(100);
     myCamera.lookAt(0,0,0);
 
     VAO cubeVAO = VAO();
-    OBJLoader::loadOBJ(&cubeVAO,"untitled.obj");
+    OBJLoader::loadOBJ(&cubeVAO,"untitled1.obj");
 
     VAO cube2VAO = VAO();
     OBJLoader::loadOBJ(&cube2VAO,"untitled.obj");
@@ -36,10 +39,10 @@ int main(){
     rootObject.addChild(&child1);
     GameObject child2(std::string("obj2"), true);
     rootObject.addChild(&child2);
-    
+
     child1.attachComponent(myCube1);
     child2.attachComponent(myCube2);
-    ((Transform*)child2.getComponent("transform"))->translate(10,0,0);
+    ((Transform*)child2.getComponent("transform"))->translate(20,0,0);
 
     //new HopperComponent(&rootObject, 2.0);
     //rootObject.deleteChild(0);
@@ -70,8 +73,8 @@ int main(){
 
 	rootObject.lateUpdate();
 
-        ((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
-        ((Transform*)child2.getComponent("transform"))->rotate(0,0.01,0);
+        ((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.0001, 0.0);
+        ((Transform*)child2.getComponent("transform"))->rotate(0,0.001,0);
 	rootObject.render(myCamera.getProjectionMatrix(), myCamera.getViewMatrix());
 
         myWindow.update();
