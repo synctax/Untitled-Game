@@ -1,13 +1,18 @@
 #include "GameObject.hpp"
 
+#include "Renderable.hpp"
+#include "Transform.hpp"
+
 #include <iostream>
 
-GameObject::GameObject(std::string _name, Renderable _renderable, bool _isShown, bool _isActive){
+GameObject::GameObject(std::string _name, bool _isActive){
     name = _name;
-    renderable = _renderable;
-    isShown = _isShown;
     isActive = _isActive;
     parent = NULL;
+    
+    //every GameObject has a transform
+    Component* transform = new Transform();
+    attachComponent(transform);
 }
 
 GameObject::~GameObject(){
@@ -24,6 +29,18 @@ GameObject::~GameObject(){
 
 void GameObject::attachComponent(Component* c){
     components.push_back(c);
+    c->object = this;
+    c->start();
+}
+
+Component* GameObject::getComponent(std::string name){
+    Component* c = NULL;
+    for(auto & component : components){
+         if(component->getName() == name){
+		c = component; 
+         }
+    }
+    return c;
 }
 
 void GameObject::addChild(GameObject* child){
@@ -45,52 +62,60 @@ void GameObject::removeChild(GameObject* child){
 
 }
 
-void GameObject::deleteChild(int index){
-    if(0 <= index && index < children.size()){
-         //this delete will automatically remove the child via the deconstructor
-	std::cout << children.at(index);
-	delete children.at(index);
+GameObject* GameObject::getChild(int index){
+    return children.at(index);
+}
+
+GameObject* GameObject::getChild(std::string _name){
+    GameObject* c = NULL;
+    for(auto & child : children){
+	if(child->name == _name){
+ 	    c = child;
+  	}
     }
+    return c;
 }
 
 void GameObject::update(){
-    //std::cout << components.size() << std::endl;
-    for(auto & component : components){
-	//std::cout << "ehllo " << component << std::endl;
-   	if(component->getEnabled()){
-   	    //std::cout << "ehllo: " << component << std::endl;
-            component->update();
+    if(isActive){ 
+    	for(auto & component : components){
+   	    if(component->getEnabled()){
+            	component->update();
+    	    }
     	}
-    }
-    for(auto & child : children){
-	child->update();
+    	for(auto & child : children){
+	    child->update();
+    	}
     }
 }
 
 void GameObject::lateUpdate(){
-    for(auto & component : components){
-        if(component->getEnabled()){
+    if(isActive){
+    	for(auto & component : components){
+            if(component->getEnabled()){
 	        component->lateUpdate();
-        }
-    }
-    for(auto & child : children){
-        child->update();
-    }
-}
-
-void GameObject::render(glm::mat4 projection,glm::mat4 view, glm::mat4 objectMatrix){
-    renderable.update();
-    if(isShown){
-    	renderable.render(projection,view,objectMatrix);
-    }
-    for(auto & child : children){
-	    if(child->isShown){
-	        child->render(projection,view,objectMatrix*renderable.getModelMatrix());
-	    }
+            }
+    	}
+    	for(auto & child : children){
+            child->update();
+    	}
     }
 }
 
 void GameObject::render(glm::mat4 projection,glm::mat4 view){
-    render(projection,view,glm::mat4(1.0f));
+    Renderable* renderable = (Renderable*)getComponent("renderable");
+    if(renderable != NULL){
+    	renderable->render(projection, view);
+    }
 
+    for(auto & child : children){
+	child->render(projection,view);
+    }
+}
+
+void GameObject::setParent(GameObject* _parent){
+    if(parent != NULL){
+        parent->removeChild(this);
+    }
+    parent = _parent;
 }

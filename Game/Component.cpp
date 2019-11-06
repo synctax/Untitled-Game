@@ -1,15 +1,6 @@
 #include "Component.hpp"
 
-Component::Component(){
+Component::Component(std::string _name){
     isEnabled = true;
-}
-
-Component::Component(GameObject* _object){
-    isEnabled = true;
-    object = _object;
-    object->attachComponent(this);
-}
-
-Component::~Component(){
-   //object->detachComponent(this);
+    name = _name;
 }

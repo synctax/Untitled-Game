@@ -10,10 +10,10 @@ public:
     float height;
 
     HopperComponent(float _height);
-    HopperComponent(GameObject* _object, float _height);
+    
+    virtual void start();
 
     virtual void update();
-    virtual void lateUpdate();
     virtual Component* clone();
 
 };

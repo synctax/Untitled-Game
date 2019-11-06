@@ -1,32 +1,27 @@
-#include "myComponent.hpp"
+#include "MyComponent.hpp"
 
 #define PI 3.141592
 
 #include <cmath>
 #include <iostream>
 
-HopperComponent::HopperComponent(float _height){
-    lastUpdate = std::chrono::high_resolution_clock::now();
-    height = _height;
-    startPos = object->renderable.position;
+#include "Transform.hpp" 
+
+HopperComponent::HopperComponent(float _height) : Component(std::string("hopper")){
+    height = _height;   
 }
 
-HopperComponent::HopperComponent(GameObject* _object, float _height) :
-	Component(_object){
+void HopperComponent::start(){
     lastUpdate = std::chrono::high_resolution_clock::now();
-    height = _height;
-    startPos = object->renderable.position;
+    startPos = ((Transform*)object->getComponent("transform"))->getPosition();   
 }
 
 void HopperComponent::update(){
     std::chrono::time_point<std::chrono::high_resolution_clock> now = std::chrono::high_resolution_clock::now();
     auto duration =  (std::chrono::duration_cast<std::chrono::milliseconds>(now - lastUpdate));
     int elapsed = duration.count();
-    object->renderable.position = startPos + glm::vec3(0.0, height * cos(PI/1000.0 * elapsed), 0.0);
-}
-
-void HopperComponent::lateUpdate(){
-    return;
+    glm::vec3 newPos = startPos + glm::vec3(0, height * cos(PI/1000.0 * elapsed), 0);
+    ((Transform*)object->getComponent("transform"))->setPosition(newPos.x, newPos.y, newPos.z);
 }
 
 Component* HopperComponent::clone(){

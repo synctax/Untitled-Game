@@ -2,36 +2,26 @@
 
 #include "ShaderProgram.hpp"
 #include "VAO.hpp"
-#include <iostream>
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
-class Renderable {
+#include "Component.hpp"
+
+class Renderable : public Component {
 public:
-    Renderable();
+    Renderable();   
 
+    virtual ~Renderable(){}    
+ 
     void setVAO(VAO* _vao);
     void createShader(const char* vPath, const char* fPath);
     void setShaderProgram(ShaderProgram* program);
 
-    void scale(float x, float y, float z);
-    void translate(float x, float y, float z);
-    void rotate(float x, float y, float z);
-
-    void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, glm::mat4 objectMatrix);
-
-    void update();
-
-    glm::mat4 getModelMatrix();
-
-    glm::vec3 size;
-    glm::vec3 position;
-    glm::vec3 rotation;
+    void render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix);
+    
+    bool getShown(){return isShown;}
+    void setShown(bool state){isShown = state;}
 private:
+   bool isShown;
+
     VAO* vao;
     ShaderProgram* shaderProgram;
-    glm::mat4 modelMatrix;
-    glm::mat4 projectionMatrix;
 };
