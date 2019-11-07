@@ -17,13 +17,16 @@ GameObject::GameObject(std::string _name, bool _isActive){
 
 GameObject::~GameObject(){
    for(auto & child : children){
-	delete child;
+	if(child->created){
+   	    delete child;
+     	}
    }
    for(auto & component : components){
    	delete component;
    }
    if(parent != NULL){
-   	parent->removeChild(this);
+   	//parent->removeChild(this);
+        //if there is a parent object potentially throw some kind've error
    }
 }
 
@@ -97,7 +100,7 @@ void GameObject::lateUpdate(){
             }
     	}
     	for(auto & child : children){
-            child->update();
+            child->lateUpdate();
     	}
     }
 }

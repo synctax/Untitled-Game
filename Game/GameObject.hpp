@@ -11,6 +11,7 @@ class GameObject;
 class GameObject {
 public:
     GameObject(std::string _name, bool _isActive);
+    GameObject(std::string _name, bool _isActive, bool _created);
     ~GameObject();
 
     void attachComponent(Component* c);
@@ -33,6 +34,7 @@ public:
     //TO DO: Figure out what properties should definetly be private
     std::string name;
     bool isActive;
+    bool created = false; //set if allocated
 
     std::vector<GameObject*> children;
     std::vector<Component*> components;

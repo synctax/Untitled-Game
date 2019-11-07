@@ -1,13 +1,18 @@
 #include "Camera.hpp"
 
-Camera::Camera(float x, float y, float z, float vAngle, float hAngle, float _width, float _height){
-    position = glm::vec3(x,y,z);
+#include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <cmath>
+
+#include "Transform.hpp"
+
+Camera::Camera(float _width, float _height) 
+ : Component(std::string("camera")) {
     FOV = 90;
-    viewDirection = glm::vec3(cos(vAngle) * sin(hAngle),
-                              sin(vAngle),
-                              cos(vAngle) * cos(hAngle));
-    width = _width; height = _height;
-    calculateMatrices();
+    width = _width; 
+    height = _height;
 }
 
 void Camera::setFOV(float fov){
@@ -21,29 +26,24 @@ void Camera::updateAspect(float _width, float _height){
     calculateMatrices();
 }
 
-void Camera::translate(float x, float y, float z){
-    position += glm::vec3(x,y,z);
-    calculateMatrices();
+void Camera::start(){
+    lateUpdate();
 }
 
-void Camera::setPosition(float x, float y, float z){
-    position = glm::vec3(x,y,z);
-    calculateMatrices();
-}
-
-void Camera::rotate(float vAngle, float hAngle){
-    glm::mat4 rMat = glm::rotate(glm::mat4(1),vAngle,glm::vec3(1,0,0));
-    rMat = glm::rotate(rMat,hAngle,glm::vec3(0,1,0));
-    viewDirection = glm::vec3(rMat*glm::vec4(viewDirection,1));
-    calculateMatrices();
-}
-
-void Camera::lookAt(float x, float y, float z){
-    viewDirection = glm::normalize(glm::vec3(x,y,z)-position);
-    calculateMatrices();
+void Camera::lateUpdate(){
+   glm::quat rotation = ((Transform*)object->getComponent("transform"))->calcGlobalRotation();
+   glm::mat4 rMat = glm::mat4_cast(rotation); 
+   std::cout << "View Direction: " << viewDirection.x << ", " << viewDirection.y << ", " << viewDirection.z << std::endl;
+    
+   viewDirection = glm::vec3(rMat*glm::vec4(0, 0, 1, 0));
+   glm::vec3 rot = glm::eulerAngles(rotation);
+   std::cout << "Rotation" << rot.x << ", " << rot.y << ", " << rot.z << std::endl; 
+   calculateMatrices(); 
 }
 
 void Camera::calculateMatrices(){
+    glm::vec3 position = ((Transform*)object->getComponent("transform"))->calcGlobalPosition();
+    std::cout << "Position: " << position.x << ", " << position.y << ", " << position.z << std::endl;
     viewMatrix = glm::lookAt(position,
                                     position+viewDirection,
                                     glm::vec3(0,1,0));
