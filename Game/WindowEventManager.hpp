@@ -51,9 +51,9 @@ public:
     friend void mouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 protected:
-    virtual void onWindowResize(int width, int height);
-    virtual void onKey(int key, int scancode, int action, int mods);
-    virtual void onCursorMove(double xpos, double ypos);
-    virtual void onMouseClick(int button, int action, int mod);
-    virtual void onMouseScroll(double xoffset, double yoffset);
+    virtual void onWindowResize(int width, int height){return;};
+    virtual void onKey(int key, int scancode, int action, int mods){return;};
+    virtual void onCursorMove(double xpos, double ypos){return;};
+    virtual void onMouseClick(int button, int action, int mod){return;};
+    virtual void onMouseScroll(double xoffset, double yoffset){return;};
 };

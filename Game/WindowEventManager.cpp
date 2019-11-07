@@ -34,7 +34,6 @@ void windowResizeCallback(GLFWwindow* window, int width, int height){
 }
 
 void keyCallback(GLFWwindow* window,int key, int scancode, int action, int mods){
-    std::cout << "key pressed" <<std::endl;
     std::list<WindowEventSubscriber*> subscriberList = WindowEventManager::subscribers[WindowEventManager::KEYBOARD_INPUT];
     std::list<WindowEventSubscriber*>::iterator i;
     for (i = subscriberList.begin(); i != subscriberList.end(); ++i){
@@ -43,7 +42,6 @@ void keyCallback(GLFWwindow* window,int key, int scancode, int action, int mods)
 }
 
 void cursorCallback(GLFWwindow* window, double xpos, double ypos){
-    std::cout << "cursor moved" << std::endl;
     std::list<WindowEventSubscriber*> subscriberList = WindowEventManager::subscribers[WindowEventManager::CURSOR_POSITION];
     std::list<WindowEventSubscriber*>::iterator i;
     for (i = subscriberList.begin(); i != subscriberList.end(); ++i){
@@ -52,7 +50,6 @@ void cursorCallback(GLFWwindow* window, double xpos, double ypos){
 }
 
 void mouseClickCallback(GLFWwindow* window, int button, int action, int mod){
-    std::cout << "mouse clicked" << std::endl;
     std::list<WindowEventSubscriber*> subscriberList = WindowEventManager::subscribers[WindowEventManager::MOUSE_BUTTON];
     std::list<WindowEventSubscriber*>::iterator i;
     for (i = subscriberList.begin(); i != subscriberList.end(); ++i){
@@ -61,7 +58,6 @@ void mouseClickCallback(GLFWwindow* window, int button, int action, int mod){
 }
 
 void mouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset){
-    std::cout << "mouse scrolled" << std::endl;
     std::list<WindowEventSubscriber*> subscriberList = WindowEventManager::subscribers[WindowEventManager::MOUSE_SCROLL];
     std::list<WindowEventSubscriber*>::iterator i;
     for (i = subscriberList.begin(); i != subscriberList.end(); ++i){

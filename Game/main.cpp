@@ -12,7 +12,7 @@ using namespace glm;
 
 int main(){
     Window myWindow = Window("Window", 1024, 768);
-    WindowEventManager::setWindow(myWindow.getWindow());
+    myWindow.disableCursor();
 
     Camera myCamera = Camera(-2,7,-25,0,0, 1024, 768);
     myCamera.setFOV(100);
