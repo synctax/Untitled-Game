@@ -1,49 +1,74 @@
 #include "Camera.hpp"
 
-Camera::Camera(float x, float y, float z, float vAngle, float hAngle, float _width, float _height){
-    position = glm::vec3(x,y,z);
+#include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <cmath>
+
+#include "Transform.hpp"
+
+Camera::Camera(float _width, float _height)
+ : Component(std::string("camera")) {
     FOV = 90;
-    viewDirection = glm::vec3(cos(vAngle) * sin(hAngle),
-                              sin(vAngle),
-                              cos(vAngle) * cos(hAngle));
-    width = _width; height = _height;
-    calculateMatrices();
+    width = _width;
+    height = _height;
+    lookAtState = lookAtMode::DISABLED;
+    viewDirection = glm::vec3(0,0,1);
 }
 
 void Camera::setFOV(float fov){
     FOV = fov;
-    calculateMatrices();
 }
 
 void Camera::updateAspect(float _width, float _height){
     width = _width;
     height = _height;
+}
+
+void Camera::start(){
+    //lateUpdate();
+}
+
+void Camera::lateUpdate(){
+    glm::vec3 target;
+    glm::vec3 position = ((Transform*)object->getComponent("transform"))->calcGlobalPosition();
+    switch (lookAtState){
+        case lookAtMode::POINT:
+            viewDirection = glm::normalize(targetPoint-position);
+            break;
+        case lookAtMode::OBJECT:
+            target = ((Transform*)targetObject->getComponent("transform"))->calcGlobalPosition();
+            viewDirection = glm::normalize(target-position);
+            std::cout << "hi !" << std::endl;
+            break;
+        case lookAtMode::DISABLED:
+            glm::quat rotation = ((Transform*)object->getComponent("transform"))->calcGlobalRotation();
+            glm::mat4 rMat = glm::mat4_cast(rotation);
+
+            viewDirection = glm::vec3(rMat*glm::vec4(0, 0, 1, 0));
+            glm::vec3 rot = glm::eulerAngles(rotation);
+            break;
+    }
     calculateMatrices();
 }
 
-void Camera::translate(float x, float y, float z){
-    position += glm::vec3(x,y,z);
-    calculateMatrices();
-}
-
-void Camera::setPosition(float x, float y, float z){
-    position = glm::vec3(x,y,z);
-    calculateMatrices();
-}
-
-void Camera::rotate(float vAngle, float hAngle){
-    glm::mat4 rMat = glm::rotate(glm::mat4(1),vAngle,glm::vec3(1,0,0));
-    rMat = glm::rotate(rMat,hAngle,glm::vec3(0,1,0));
-    viewDirection = glm::vec3(rMat*glm::vec4(viewDirection,1));
-    calculateMatrices();
+void Camera::lookAt(GameObject* object){
+    lookAtState = lookAtMode::OBJECT;
+    targetObject = object;
 }
 
 void Camera::lookAt(float x, float y, float z){
-    viewDirection = glm::normalize(glm::vec3(x,y,z)-position);
-    calculateMatrices();
+    lookAtState = lookAtMode::POINT;
+    targetPoint = glm::vec3(x,y,z);
+}
+
+void Camera::disableLookAt(){
+    lookAtState = lookAtMode::DISABLED;
 }
 
 void Camera::calculateMatrices(){
+    glm::vec3 position = ((Transform*)object->getComponent("transform"))->calcGlobalPosition();
     viewMatrix = glm::lookAt(position,
                                     position+viewDirection,
                                     glm::vec3(0,1,0));

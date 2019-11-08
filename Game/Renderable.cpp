@@ -29,3 +29,4 @@ void Renderable::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix){
     	vao->draw();
     }
 }
+
