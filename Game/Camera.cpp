@@ -40,7 +40,6 @@ void Camera::lateUpdate(){
         case lookAtMode::OBJECT:
             target = ((Transform*)targetObject->getComponent("transform"))->calcGlobalPosition();
             viewDirection = glm::normalize(target-position);
-            std::cout << "hi !" << std::endl;
             break;
         case lookAtMode::DISABLED:
             glm::quat rotation = ((Transform*)object->getComponent("transform"))->calcGlobalRotation();

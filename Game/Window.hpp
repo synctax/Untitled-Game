@@ -12,13 +12,14 @@ class Window : public WindowEventSubscriber{
 private:
     GLFWwindow* window;
     int width, height;
+    bool cursorEnabled;
     bool shouldClose;
 public:
     Window(const char* title, int width, int height);
     void update() const;
     void clear() const;
-    void disableCursor() const;
-    void enableCursor() const;
+    void disableCursor();
+    void enableCursor();
     inline bool closed() const {return ((glfwWindowShouldClose(window) != 0)||shouldClose);};
     inline int getWidth() const {return width;};
     inline int getHeight() const {return height;};
@@ -26,6 +27,6 @@ public:
     ~Window(){};
 
     virtual void onWindowResize(int width, int height);
-    virtual void onKey(int key, int action, int scancodes, int mods);
+    virtual void onKey(int key, int scancode, int action, int mods);
 };
 

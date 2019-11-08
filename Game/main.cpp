@@ -42,13 +42,13 @@ int main(){
     cameraObj.attachComponent(myCamera);
     ((Transform*)cameraObj.getComponent("transform"))->setPosition(20, 5, -1);
     //((Transform*)cameraObj.getComponent("transform"))->rotate(0,180,0);
-    ((Camera*)cameraObj.getComponent("camera"))->lookAt(&child2);
+    ((Camera*)cameraObj.getComponent("camera"))->lookAt(0,0,0);
 
     rootObject.addChild(&cameraObj);
 
     child1.attachComponent(myCube1);
     child2.attachComponent(myCube2);
-    ((Transform*)child2.getComponent("transform"))->translate(20,0,0);
+    ((Transform*)child2.getComponent("transform"))->translate(10,0,0);
 
     //new HopperComponent(&rootObject, 2.0);
     //rootObject.deleteChild(0);
@@ -74,7 +74,7 @@ int main(){
         myCamera->updateAspect(myWindow.getWidth(), myWindow.getHeight());
         myWindow.clear();
 
-        ((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
+        //((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
         Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
         child2Trans->rotate(0, 0.01, 0);
         glm::vec3 child2Pos = child2Trans->calcGlobalPosition();
@@ -84,9 +84,9 @@ int main(){
 
         //((Transform*)cameraObj.getComponent("transform"))->lookAt(0, 0, 0);
 
-	      rootObject.update();
+	    rootObject.update();
 
-	      rootObject.lateUpdate();
+	    rootObject.lateUpdate();
 
         rootObject.render(myCamera->getProjectionMatrix(), myCamera->getViewMatrix());
 

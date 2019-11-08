@@ -44,13 +44,15 @@ void Window::clear() const {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Window::disableCursor() const{
+void Window::disableCursor(){
+    cursorEnabled = false;
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     if (glfwRawMouseMotionSupported())
     glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 }
 
-void Window::enableCursor() const{
+void Window::enableCursor(){
+    cursorEnabled = true;
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_FALSE);
 }
@@ -61,8 +63,21 @@ void Window::onWindowResize(int width, int height){
     win->height = height;
 }
 
-void Window::onKey(int key, int action, int scancodes, int mods){
-    if (key == GLFW_KEY_ESCAPE){
-        shouldClose = true;
+void Window::onKey(int key, int scancode, int action, int mods){
+    if (action == GLFW_PRESS){
+        switch(key){
+            case GLFW_KEY_Q:
+                shouldClose = true;
+                break;
+            case GLFW_KEY_ESCAPE:
+                if (cursorEnabled){
+                    disableCursor();
+                }else{
+                    enableCursor();
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
