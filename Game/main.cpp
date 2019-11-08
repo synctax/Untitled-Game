@@ -6,6 +6,7 @@
 #include "GameObject.hpp"
 //#include "MyComponent.hpp"
 #include "Transform.hpp"
+#include "WindowEventManager.hpp"
 
 #include <iostream>
 
@@ -13,9 +14,10 @@ using namespace glm;
 
 int main(){
     Window myWindow = Window("Window", 1024, 768);
+    myWindow.disableCursor();
 
     VAO cubeVAO = VAO();
-    OBJLoader::loadOBJ(&cubeVAO,"untitled.obj");
+    OBJLoader::loadOBJ(&cubeVAO,"untitled1.obj");
 
     VAO cube2VAO = VAO();
     OBJLoader::loadOBJ(&cube2VAO,"untitled.obj");
@@ -46,7 +48,7 @@ int main(){
 
     child1.attachComponent(myCube1);
     child2.attachComponent(myCube2);
-    ((Transform*)child2.getComponent("transform"))->translate(10,0,0);
+    ((Transform*)child2.getComponent("transform"))->translate(20,0,0);
 
     //new HopperComponent(&rootObject, 2.0);
     //rootObject.deleteChild(0);
@@ -82,9 +84,9 @@ int main(){
 
         //((Transform*)cameraObj.getComponent("transform"))->lookAt(0, 0, 0);
 
-	    rootObject.update();
+	      rootObject.update();
 
-	    rootObject.lateUpdate();
+	      rootObject.lateUpdate();
 
         rootObject.render(myCamera->getProjectionMatrix(), myCamera->getViewMatrix());
 

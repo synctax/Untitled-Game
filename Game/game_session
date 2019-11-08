@@ -72,8 +72,8 @@ onoremap ,e :e =expand("%:p:h") . "/" 
 nnoremap ,. :lcd %:p:h
 nnoremap ,sc :CloseSession
 nnoremap ,sd :DeleteSession
-nnoremap ,ss :SaveSession 
-nnoremap ,so :OpenSession 
+nnoremap ,ss :SaveSession
+nnoremap ,so :OpenSession
 noremap ,gr :Gremove
 noremap ,gd :Gvdiff
 noremap ,gb :Gblame
@@ -242,20 +242,22 @@ badd +10 VAO.hpp
 badd +1 Camera.cpp
 badd +1 Camera.hpp
 badd +1 Window.cpp
-badd +22 Window.hpp
+badd +9 Window.hpp
 badd +1 simple.fs
 badd +1 simple..vs
 badd +12 simple.vs
 badd +1 OBJLoader.cpp
-badd +14 OBJLoader.hpp
+badd +10 OBJLoader.hpp
 badd +1 Component.cpp
 badd +15 Component.hpp
 badd +1 GameObject.cpp
-badd +17 GameObject.hpp
+badd +5 GameObject.hpp
 badd +1 myComponent.cpp
 badd +13 myComponent.hpp
-badd +0 Transform.cpp
-badd +0 Transform.hpp
+badd +1 Transform.cpp
+badd +19 Transform.hpp
+badd +0 WindowEventManager.cpp
+badd +0 WindowEventManager.hpp
 argglobal
 silent! argdel *
 $argadd main.cpp
@@ -311,10 +313,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -349,10 +351,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -441,7 +443,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -505,7 +507,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -518,10 +520,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -536,10 +538,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -584,7 +586,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -733,13 +735,603 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 46 - ((18 * winheight(0) + 25) / 50)
+let s:l = 15 - ((14 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-46
-normal! 04|
+15
+normal! 037|
 tabedit Transform.hpp
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=1 winheight=1 winminwidth=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
+exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
+argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <S-Tab> <Plug>delimitMateS-Tab
+imap <buffer> <S-BS> <Plug>delimitMateS-BS
+imap <buffer> <BS> <Plug>delimitMateBS
+nmap <buffer> ,hp <Plug>GitGutterPreviewHunk
+nmap <buffer> ,hu <Plug>GitGutterUndoHunk
+nmap <buffer> ,hs <Plug>GitGutterStageHunk
+nmap <buffer> [c <Plug>GitGutterPrevHunk
+nmap <buffer> ]c <Plug>GitGutterNextHunk
+xmap <buffer> ac <Plug>GitGutterTextObjectOuterVisual
+omap <buffer> ac <Plug>GitGutterTextObjectOuterPending
+xmap <buffer> ic <Plug>GitGutterTextObjectInnerVisual
+omap <buffer> ic <Plug>GitGutterTextObjectInnerPending
+imap <buffer> <silent> g <Plug>delimitMateJumpMany
+imap <buffer>  <Plug>delimitMateBS
+imap <buffer> " <Plug>delimitMate"
+imap <buffer> ' <Plug>delimitMate'
+imap <buffer> ( <Plug>delimitMate(
+imap <buffer> ) <Plug>delimitMate)
+imap <buffer> [ <Plug>delimitMate[
+imap <buffer> ] <Plug>delimitMate]
+imap <buffer> ` <Plug>delimitMate`
+imap <buffer> { <Plug>delimitMate{
+imap <buffer> } <Plug>delimitMate}
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal noautoindent
+setlocal backupcopy=
+setlocal binary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(1)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 26 - ((25 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+26
+normal! 010|
+wincmd w
+argglobal
+if bufexists('Transform.cpp') | buffer Transform.cpp | else | edit Transform.cpp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <S-Tab> <Plug>delimitMateS-Tab
+imap <buffer> <S-BS> <Plug>delimitMateS-BS
+imap <buffer> <BS> <Plug>delimitMateBS
+nmap <buffer> ,hp <Plug>GitGutterPreviewHunk
+nmap <buffer> ,hu <Plug>GitGutterUndoHunk
+nmap <buffer> ,hs <Plug>GitGutterStageHunk
+nmap <buffer> [c <Plug>GitGutterPrevHunk
+nmap <buffer> ]c <Plug>GitGutterNextHunk
+xmap <buffer> ac <Plug>GitGutterTextObjectOuterVisual
+omap <buffer> ac <Plug>GitGutterTextObjectOuterPending
+xmap <buffer> ic <Plug>GitGutterTextObjectInnerVisual
+omap <buffer> ic <Plug>GitGutterTextObjectInnerPending
+imap <buffer> <silent> g <Plug>delimitMateJumpMany
+imap <buffer>  <Plug>delimitMateBS
+imap <buffer> " <Plug>delimitMate"
+imap <buffer> ' <Plug>delimitMate'
+imap <buffer> ( <Plug>delimitMate(
+imap <buffer> ) <Plug>delimitMate)
+imap <buffer> [ <Plug>delimitMate[
+imap <buffer> ] <Plug>delimitMate]
+imap <buffer> ` <Plug>delimitMate`
+imap <buffer> { <Plug>delimitMate{
+imap <buffer> } <Plug>delimitMate}
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal noautoindent
+setlocal backupcopy=
+setlocal binary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(2)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
+exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
+tabedit WindowEventManager.hpp
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winminheight=1 winheight=1 winminwidth=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
+exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
+argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <S-Tab> <Plug>delimitMateS-Tab
+imap <buffer> <S-BS> <Plug>delimitMateS-BS
+imap <buffer> <BS> <Plug>delimitMateBS
+nmap <buffer> ,hp <Plug>GitGutterPreviewHunk
+nmap <buffer> ,hu <Plug>GitGutterUndoHunk
+nmap <buffer> ,hs <Plug>GitGutterStageHunk
+nmap <buffer> [c <Plug>GitGutterPrevHunk
+nmap <buffer> ]c <Plug>GitGutterNextHunk
+xmap <buffer> ac <Plug>GitGutterTextObjectOuterVisual
+omap <buffer> ac <Plug>GitGutterTextObjectOuterPending
+xmap <buffer> ic <Plug>GitGutterTextObjectInnerVisual
+omap <buffer> ic <Plug>GitGutterTextObjectInnerPending
+imap <buffer> <silent> g <Plug>delimitMateJumpMany
+imap <buffer>  <Plug>delimitMateBS
+imap <buffer> " <Plug>delimitMate"
+imap <buffer> ' <Plug>delimitMate'
+imap <buffer> ( <Plug>delimitMate(
+imap <buffer> ) <Plug>delimitMate)
+imap <buffer> [ <Plug>delimitMate[
+imap <buffer> ] <Plug>delimitMate]
+imap <buffer> ` <Plug>delimitMate`
+imap <buffer> { <Plug>delimitMate{
+imap <buffer> } <Plug>delimitMate}
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal noautoindent
+setlocal backupcopy=
+setlocal binary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(1)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+wincmd w
+argglobal
+if bufexists('WindowEventManager.cpp') | buffer WindowEventManager.cpp | else | edit WindowEventManager.cpp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <S-Tab> <Plug>delimitMateS-Tab
+imap <buffer> <S-BS> <Plug>delimitMateS-BS
+imap <buffer> <BS> <Plug>delimitMateBS
+nmap <buffer> ,hp <Plug>GitGutterPreviewHunk
+nmap <buffer> ,hu <Plug>GitGutterUndoHunk
+nmap <buffer> ,hs <Plug>GitGutterStageHunk
+nmap <buffer> [c <Plug>GitGutterPrevHunk
+nmap <buffer> ]c <Plug>GitGutterNextHunk
+xmap <buffer> ac <Plug>GitGutterTextObjectOuterVisual
+omap <buffer> ac <Plug>GitGutterTextObjectOuterPending
+xmap <buffer> ic <Plug>GitGutterTextObjectInnerVisual
+omap <buffer> ic <Plug>GitGutterTextObjectInnerPending
+imap <buffer> <silent> g <Plug>delimitMateJumpMany
+imap <buffer>  <Plug>delimitMateBS
+imap <buffer> " <Plug>delimitMate"
+imap <buffer> ' <Plug>delimitMate'
+imap <buffer> ( <Plug>delimitMate(
+imap <buffer> ) <Plug>delimitMate)
+imap <buffer> [ <Plug>delimitMate[
+imap <buffer> ] <Plug>delimitMate]
+imap <buffer> ` <Plug>delimitMate`
+imap <buffer> { <Plug>delimitMate{
+imap <buffer> } <Plug>delimitMate}
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal noautoindent
+setlocal backupcopy=
+setlocal binary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(2)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 78 - ((45 * winheight(0) + 25) / 50)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+78
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 89 + 89) / 179)
+exe 'vert 2resize ' . ((&columns * 89 + 89) / 179)
+tabedit OBJLoader.hpp
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -1092,10 +1684,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -1130,10 +1722,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -1222,7 +1814,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -1286,7 +1878,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -1299,10 +1891,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -1317,10 +1909,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -1365,7 +1957,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -1568,10 +2160,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -1606,10 +2198,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -1698,7 +2290,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -1762,7 +2354,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -1775,10 +2367,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -1793,10 +2385,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -1841,7 +2433,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -2353,10 +2945,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -2391,10 +2983,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -2483,7 +3075,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -2547,7 +3139,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -2560,10 +3152,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -2578,10 +3170,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -2626,7 +3218,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -2829,10 +3421,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -2867,10 +3459,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -2959,7 +3551,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -3023,7 +3615,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -3036,10 +3628,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -3054,10 +3646,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -3102,7 +3694,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -3318,10 +3910,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -3356,10 +3948,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -3448,7 +4040,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -3512,7 +4104,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -3525,10 +4117,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -3543,10 +4135,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -3591,7 +4183,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -3794,10 +4386,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -3832,10 +4424,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -3924,7 +4516,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -3988,7 +4580,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -4001,10 +4593,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -4019,10 +4611,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -4067,7 +4659,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -4283,10 +4875,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -4321,10 +4913,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -4413,7 +5005,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -4477,7 +5069,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -4490,10 +5082,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -4508,10 +5100,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -4556,7 +5148,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -4759,10 +5351,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -4797,10 +5389,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -4889,7 +5481,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -4953,7 +5545,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -4966,10 +5558,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -4984,10 +5576,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -5032,7 +5624,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -5248,10 +5840,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -5286,10 +5878,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -5378,7 +5970,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -5442,7 +6034,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -5455,10 +6047,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -5473,10 +6065,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -5521,7 +6113,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -5724,10 +6316,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -5762,10 +6354,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -5854,7 +6446,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -5918,7 +6510,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -5931,10 +6523,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -5949,10 +6541,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -5997,7 +6589,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -6213,10 +6805,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -6251,10 +6843,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -6343,7 +6935,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -6407,7 +6999,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -6420,10 +7012,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -6438,10 +7030,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -6486,7 +7078,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -6689,10 +7281,10 @@ vnoremap <buffer> <silent> \ct s:call C_InsertDateAndTime('dt')a
 onoremap <buffer> <silent> \cx :call C_CommentToggle( )
 nnoremap <buffer> <silent> \cx :call C_CommentToggle( )
 vnoremap <buffer> <silent> \cx :call C_CommentToggle( )
-noremap <buffer> \ccs :CFileSection 
-noremap <buffer> \chs :HFileSection 
-noremap <buffer> \ckc :KeywordComment 
-noremap <buffer> \csc :SpecialComment 
+noremap <buffer> \ccs :CFileSection
+noremap <buffer> \chs :HFileSection
+noremap <buffer> \ckc :KeywordComment
+noremap <buffer> \csc :SpecialComment
 onoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 nnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 vnoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while", "v")
@@ -6727,10 +7319,10 @@ vnoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block", "v")
 onoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 nnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
 vnoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block", "v")
-noremap <buffer> \ps :IncludeStdLibrary 
-noremap <buffer> \pc :IncludeC99Library 
-noremap <buffer> \+ps :IncludeCppLibrary 
-noremap <buffer> \+pc :IncludeCppCLibrary 
+noremap <buffer> \ps :IncludeStdLibrary
+noremap <buffer> \pc :IncludeC99Library
+noremap <buffer> \+ps :IncludeCppLibrary
+noremap <buffer> \+pc :IncludeCppCLibrary
 noremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 noremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 noremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -6819,7 +7411,7 @@ noremap <buffer> <silent> \nc :call C_ProtoClear()
 noremap <buffer> <silent> \ns :call C_ProtoShow()
 noremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 noremap <buffer> <silent> \ntr :call C_RereadTemplates()
-noremap <buffer> \nts :CStyle 
+noremap <buffer> \nts :CStyle
 noremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 noremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 noremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -6883,7 +7475,7 @@ imap <buffer> ' <Plug>delimitMate'
 imap <buffer> ( <Plug>delimitMate(
 imap <buffer> ) <Plug>delimitMate)
 inoremap <buffer> /* /*  */<Left><Left><Left>
-inoremap <buffer> /* /*/kA 
+inoremap <buffer> /* /*/kA
 imap <buffer> [ <Plug>delimitMate[
 inoremap <buffer> <silent> \cl :call C_EndOfLineComment()
 inoremap <buffer> <silent> \cj :call C_AdjustLineEndComm()a
@@ -6896,10 +7488,10 @@ inoremap <buffer> <silent> \cfdh :call C_InsertTemplate("comment.file-descript
 inoremap <buffer> <silent> \cd :call C_InsertDateAndTime('d')a
 inoremap <buffer> <silent> \ct :call C_InsertDateAndTime('dt')a
 inoremap <buffer> <silent> \cx :call C_CommentToggle( )
-inoremap <buffer> \ccs :CFileSection 
-inoremap <buffer> \chs :HFileSection 
-inoremap <buffer> \ckc :KeywordComment 
-inoremap <buffer> \csc :SpecialComment 
+inoremap <buffer> \ccs :CFileSection
+inoremap <buffer> \chs :HFileSection
+inoremap <buffer> \ckc :KeywordComment
+inoremap <buffer> \csc :SpecialComment
 inoremap <buffer> <silent> \sd :call C_InsertTemplate("statements.do-while")
 inoremap <buffer> <silent> \sf :call C_InsertTemplate("statements.for")
 inoremap <buffer> <silent> \sfo :call C_InsertTemplate("statements.for-block")
@@ -6914,10 +7506,10 @@ inoremap <buffer> <silent> \ss :call C_InsertTemplate("statements.switch")
 inoremap <buffer> <silent> \sc :call C_InsertTemplate("statements.case")
 inoremap <buffer> <silent> \s{ :call C_InsertTemplate("statements.block")
 inoremap <buffer> <silent> \sb :call C_InsertTemplate("statements.block")
-inoremap <buffer> \ps :IncludeStdLibrary 
-inoremap <buffer> \pc :IncludeC99Library 
-inoremap <buffer> \+ps :IncludeCppLibrary 
-inoremap <buffer> \+pc :IncludeCppC9Library 
+inoremap <buffer> \ps :IncludeStdLibrary
+inoremap <buffer> \pc :IncludeC99Library
+inoremap <buffer> \+ps :IncludeCppLibrary
+inoremap <buffer> \+pc :IncludeCppC9Library
 inoremap <buffer> <silent> \p< :call C_InsertTemplate("preprocessor.include-global")
 inoremap <buffer> <silent> \p" :call C_InsertTemplate("preprocessor.include-local")
 inoremap <buffer> <silent> \pd :call C_InsertTemplate("preprocessor.define")
@@ -6962,7 +7554,7 @@ inoremap <buffer> <silent> \nc :call C_ProtoClear()
 inoremap <buffer> <silent> \ns :call C_ProtoShow()
 inoremap <buffer> <silent> \ntl :call C_BrowseTemplateFiles("Local")
 inoremap <buffer> <silent> \ntr :call C_RereadTemplates()
-inoremap <buffer> \nts :CStyle 
+inoremap <buffer> \nts :CStyle
 inoremap <buffer> <silent> \+" :call C_InsertTemplate("cpp.cout-operator")
 inoremap <buffer> <silent> \+co :call C_InsertTemplate("cpp.cout")
 inoremap <buffer> <silent> \+c :call C_InsertTemplate("cpp.class-definition")
@@ -7862,12 +8454,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 37 - ((36 * winheight(0) + 25) / 50)
+let s:l = 17 - ((16 * winheight(0) + 25) / 50)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-37
-normal! 016|
+17
+normal! 080|
 wincmd w
 argglobal
 if bufexists('GameObject.cpp') | buffer GameObject.cpp | else | edit GameObject.cpp | endif
