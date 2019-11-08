@@ -40,7 +40,7 @@ int main(){
     cameraObj.attachComponent(myCamera);
     ((Transform*)cameraObj.getComponent("transform"))->setPosition(20, 5, -1);
     //((Transform*)cameraObj.getComponent("transform"))->rotate(0,180,0);
-    ((Camera*)cameraObj.getComponent("transform"))->lookAt(0,0,0);
+    ((Camera*)cameraObj.getComponent("camera"))->lookAt(&child2);
 
     rootObject.addChild(&cameraObj);
 
