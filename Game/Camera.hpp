@@ -6,9 +6,17 @@
 
 class Camera : public Component {
 private:
+    enum lookAtMode {
+        DISABLED,
+        POINT,
+        OBJECT
+    };
     glm::mat4 projectionMatrix;
     glm::mat4 viewMatrix;
     glm::vec3 viewDirection;
+    glm::vec3 targetPoint;
+    GameObject* targetObject;
+    lookAtMode lookAtState;
     float FOV;
 
     float width, height;
@@ -17,8 +25,12 @@ public:
 
     void setFOV(float fov);
     void updateAspect(float _width, float _height);
-    
-    virtual void start(); 
+
+    void lookAt(GameObject* object);
+    void lookAt(float x, float y, float z);
+    void disableLookAt();
+
+    virtual void start();
     virtual void lateUpdate();
 
     inline glm::vec3 getViewDirection() const {return viewDirection;};

@@ -9,7 +9,8 @@ GameObject::GameObject(std::string _name, bool _isActive){
     name = _name;
     isActive = _isActive;
     parent = NULL;
-    
+    created = false;
+
     //every GameObject has a transform
     Component* transform = new Transform();
     attachComponent(transform);
