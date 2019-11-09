@@ -1,5 +1,7 @@
 #include "CollideableManager.hpp"
 
+std::vector<CollideableManager::dataNode> CollideableManager::data;
+
 void CollideableManager::addCollideable(Collider* c){
     data.push_back(dataNode(c));
 }
