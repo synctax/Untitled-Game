@@ -5,6 +5,8 @@
 
 #include "Component.hpp"
 
+#include <glm/glm.hpp>
+
 class Renderable : public Component {
 public:
     Renderable();
@@ -19,8 +21,13 @@ public:
 
     inline bool getShown() const {return isShown;}
     void setShown(bool state){isShown = state;}
+
+    void setColor(float r, float g, float b); 
 private:
-   bool isShown;
+    bool isShown;   
+    
+    //rendering vars (later this will probably be a material)
+    glm::vec3 color = glm::vec3(1, 1, 1);
 
     VAO* vao;
     ShaderProgram* shaderProgram;

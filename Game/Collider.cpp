@@ -1,6 +1,7 @@
 #include "Collider.hpp"
 
 #include "CollideableManager.hpp"
+#include "Renderable.hpp"
 
 #include <iostream>
 
@@ -27,10 +28,16 @@ void Collider::onDisable(){
 
 void Collider::update(){
     //check for collisions from CollideableManager and notify GameObject
-    std::vector<CollisionEvent> events = CollideableManager::getCollisions(this);
+    Renderable* renderable = (Renderable*)object->getComponent("renderable"); 
+    
+    renderable->setColor(1, 1, 1);
+
+    std::vector<CollisionEvent> events = CollideableManager::getCollisions(this);   
     for(auto & e : events){
 	//notify the parent object
-  	std::cout << "I, " << object->getName() << ", Collided with " << e.other->object->getName() << std::endl;	
+	renderable->setColor(1, 0, 0);
+	break;
+  	//std::cout << object->getName() << " Collided with " << e.other->object->getName() << std::endl;	
     } 
 }
 

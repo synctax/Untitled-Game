@@ -16,7 +16,12 @@ void ShaderProgram::remove(){
     glDeleteProgram(programID);
 }
 
-void ShaderProgram::setUniform(const GLfloat* matrix, const char* uniformName){
+void ShaderProgram::setUniformVec3(float* data, std::string uniformName){
+    GLuint uniformID = glGetUniformLocation(programID, uniformName.c_str());
+    glUniform3fv(uniformID, 1, data);
+}
+
+void ShaderProgram::setUniformMat4(const GLfloat* matrix, const char* uniformName){
     GLuint MatrixID = glGetUniformLocation(programID, uniformName);
     glUniformMatrix4fv(MatrixID, 1, GL_FALSE, matrix);
 }

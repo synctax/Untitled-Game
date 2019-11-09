@@ -21,7 +21,8 @@ public:
     ~ShaderProgram();
     void start();
     void remove();
-    void setUniform(const GLfloat* matrix, const char* uniformName);
+    void setUniformVec3(float* data, std::string uniformName);
+    void setUniformMat4(const GLfloat* matrix, const char* uniformName);
 private:
     GLuint loadShader(const char* vPath, const char* fPath);
     GLuint programID;

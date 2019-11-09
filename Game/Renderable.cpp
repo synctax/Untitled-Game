@@ -28,11 +28,15 @@ void Renderable::setShaderProgram(ShaderProgram* program){
 void Renderable::render(glm::mat4 projectionMatrix, glm::mat4 viewMatrix){
     if(isShown){
 	glm::mat4 newModelMatrix = ((Transform*)object->getComponent("transform"))->calcModelMatrix();
-    	shaderProgram->setUniform(&newModelMatrix[0][0],"M");
-   	shaderProgram->setUniform(&viewMatrix[0][0],"V");
-   	shaderProgram->setUniform(&projectionMatrix[0][0],"P");
+	shaderProgram->setUniformVec3(&color[0], "c");
+	shaderProgram->setUniformMat4(&newModelMatrix[0][0],"M");
+   	shaderProgram->setUniformMat4(&viewMatrix[0][0],"V");
+   	shaderProgram->setUniformMat4(&projectionMatrix[0][0],"P");
     	shaderProgram->start();
     	vao->draw();
     }
 }
 
+void Renderable::setColor(float r, float g, float b){
+    color = glm::vec3(r, g, b);
+}
