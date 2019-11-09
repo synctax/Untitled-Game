@@ -9,7 +9,8 @@ GameObject::GameObject(std::string _name, bool _isActive){
     name = _name;
     isActive = _isActive;
     parent = NULL;
-    
+    created = false;
+
     //every GameObject has a transform
     Component* transform = new Transform();
     attachComponent(transform);
@@ -17,13 +18,16 @@ GameObject::GameObject(std::string _name, bool _isActive){
 
 GameObject::~GameObject(){
    for(auto & child : children){
-	delete child;
+	if(child->created){
+   	    delete child;
+     	}
    }
    for(auto & component : components){
    	delete component;
    }
    if(parent != NULL){
-   	parent->removeChild(this);
+   	//parent->removeChild(this);
+        //if there is a parent object potentially throw some kind've error
    }
 }
 
@@ -97,7 +101,7 @@ void GameObject::lateUpdate(){
             }
     	}
     	for(auto & child : children){
-            child->update();
+            child->lateUpdate();
     	}
     }
 }

@@ -2,10 +2,10 @@
 
 using namespace glm;
 
-Window::Window(const char* title, int _width, int _height){
-
+Window::Window(const char* title, int _width, int _height) : WindowEventSubscriber(){
     width = _width;
     height = _height;
+    shouldClose = false;
 
     glewExperimental = true;
     if (!glfwInit()){
@@ -24,14 +24,15 @@ Window::Window(const char* title, int _width, int _height){
         glfwTerminate();
     }
     glfwMakeContextCurrent(window);
-     
+
     glfwSetWindowUserPointer(window, this);
-
-    glfwSetWindowSizeCallback(window, resize_callback);
-
+    glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
     if (glewInit() != GLEW_OK) {
         fprintf(stderr, "Failed to initialize GLEW\n");
     }
+    WindowEventManager::setWindow(window);
+    WindowEventSubscriber::subscribe(WindowEventManager::events::WINDOW_RESIZE);
+    WindowEventSubscriber::subscribe(WindowEventManager::events::KEYBOARD_INPUT);
 }
 
 void Window::update() const {
@@ -43,8 +44,40 @@ void Window::clear() const {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void resize_callback(GLFWwindow* window, int width, int height){
+void Window::disableCursor(){
+    cursorEnabled = false;
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (glfwRawMouseMotionSupported())
+    glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+}
+
+void Window::enableCursor(){
+    cursorEnabled = true;
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_FALSE);
+}
+
+void Window::onWindowResize(int width, int height){
     Window* win = (Window*)glfwGetWindowUserPointer(window);
     win->width = width;
     win->height = height;
+}
+
+void Window::onKey(int key, int scancode, int action, int mods){
+    if (action == GLFW_PRESS){
+        switch(key){
+            case GLFW_KEY_Q:
+                shouldClose = true;
+                break;
+            case GLFW_KEY_ESCAPE:
+                if (cursorEnabled){
+                    disableCursor();
+                }else{
+                    enableCursor();
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

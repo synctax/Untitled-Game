@@ -6,17 +6,18 @@
 #include "GameObject.hpp"
 //#include "MyComponent.hpp"
 #include "Transform.hpp"
+#include "WindowEventManager.hpp"
+
+#include <iostream>
 
 using namespace glm;
 
 int main(){
     Window myWindow = Window("Window", 1024, 768);
-
-    Camera myCamera = Camera(-2,7,-15,0,0, 1024, 768);
-    myCamera.lookAt(0,0,0);
+    myWindow.disableCursor();
 
     VAO cubeVAO = VAO();
-    OBJLoader::loadOBJ(&cubeVAO,"untitled.obj");
+    OBJLoader::loadOBJ(&cubeVAO,"untitled1.obj");
 
     VAO cube2VAO = VAO();
     OBJLoader::loadOBJ(&cube2VAO,"untitled.obj");
@@ -36,7 +37,15 @@ int main(){
     rootObject.addChild(&child1);
     GameObject child2(std::string("obj2"), true);
     rootObject.addChild(&child2);
-    
+    GameObject cameraObj = GameObject(std::string("cam1"), true);
+    Camera* myCamera = new Camera(1024, 768);
+    cameraObj.attachComponent(myCamera);
+    ((Transform*)cameraObj.getComponent("transform"))->setPosition(20, 5, -1);
+    //((Transform*)cameraObj.getComponent("transform"))->rotate(0,180,0);
+    ((Camera*)cameraObj.getComponent("camera"))->lookAt(0,0,0);
+
+    rootObject.addChild(&cameraObj);
+
     child1.attachComponent(myCube1);
     child2.attachComponent(myCube2);
     ((Transform*)child2.getComponent("transform"))->translate(10,0,0);
@@ -62,17 +71,24 @@ int main(){
             previousTime = currentTime;
         }
 
-        myCamera.updateAspect(myWindow.getWidth(), myWindow.getHeight());
+        myCamera->updateAspect(myWindow.getWidth(), myWindow.getHeight());
         myWindow.clear();
 
+        //((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
+        Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
+        child2Trans->rotate(0, 0.01, 0);
+        glm::vec3 child2Pos = child2Trans->calcGlobalPosition();
 
-	rootObject.update();
+        //((Transform*)cameraObj.getComponent("transform"))->lookAt(0,0,0);
+        //std::cout << "pos: " << child2Pos.x << std::endl;
 
-	rootObject.lateUpdate();
+        //((Transform*)cameraObj.getComponent("transform"))->lookAt(0, 0, 0);
 
-        ((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
-        ((Transform*)child2.getComponent("transform"))->rotate(0,0.01,0);
-	rootObject.render(myCamera.getProjectionMatrix(), myCamera.getViewMatrix());
+	    rootObject.update();
+
+	    rootObject.lateUpdate();
+
+        rootObject.render(myCamera->getProjectionMatrix(), myCamera->getViewMatrix());
 
         myWindow.update();
 
