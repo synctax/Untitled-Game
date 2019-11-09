@@ -26,9 +26,9 @@ protected:
     glm::quat rotation;        
 };
 
-class BoundingBox : BoundingObject {
+class BoundingBox : public BoundingObject {
 public:
-    BoundingBox();
+    BoundingBox(float width, float height, float depth);
  
     virtual bool didCollide(BoundingObject* obj);
     virtual void update(glm::vec3 _position, glm::quat rotation);    
@@ -41,7 +41,7 @@ private:
 
 class BoundingSphere : public BoundingObject {
 public:
-    BoundingSphere();
+    BoundingSphere(float _radius);
 
     virtual bool didCollide(BoundingObject* obj);
     

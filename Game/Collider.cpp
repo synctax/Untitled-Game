@@ -2,6 +2,16 @@
 
 #include "CollideableManager.hpp"
 
+#include <iostream>
+
+Collider::Collider(float width, float height, float depth) : Component("collider") {
+    bounding = new BoundingBox(width, height, depth);
+}
+
+Collider::~Collider(){
+    delete bounding;
+}
+
 void Collider::start(){
     //register to some kind've scene manager(stores collideables)
     CollideableManager::addCollideable(this);
@@ -19,7 +29,8 @@ void Collider::update(){
     //check for collisions from CollideableManager and notify GameObject
     std::vector<CollisionEvent> events = CollideableManager::getCollisions(this);
     for(auto & e : events){
-	//notify the parent object  	
+	//notify the parent object
+  	std::cout << "I, " << object->getName() << ", Collided with " << e.other->object->getName() << std::endl;	
     } 
 }
 

@@ -9,6 +9,9 @@
 //object and Collideable Manager
 class Collider : public Component {
 public:
+    Collider(float width, float height, float depth);
+    ~Collider();
+
     virtual void start();
     virtual void update();
     

@@ -8,7 +8,7 @@
 class Renderable : public Component {
 public:
     Renderable();
-
+    Renderable(VAO* _vao, ShaderProgram* _program);
     virtual ~Renderable(){}
 
     void setVAO(VAO* _vao);

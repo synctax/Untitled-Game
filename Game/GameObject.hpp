@@ -32,15 +32,21 @@ public:
     GameObject* clone(); //this is the primary method of instantiating a GameObject
 
     //TO DO: Figure out what properties should definetly be private
-    std::string name;
-    bool isActive;
     bool created; //set if allocated
 
     std::vector<GameObject*> children;
     std::vector<Component*> components;
-
+    
     GameObject* getParent(){return parent;}
     void setParent(GameObject* _parent);
+    
+    std::string getName(){return name;}
+ 
+    bool getActive(){return isActive;} 
+    void setActive(bool state);
+ 
 private:
     GameObject* parent;
+    std::string name;
+    bool isActive;
 };

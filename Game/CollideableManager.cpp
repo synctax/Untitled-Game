@@ -1,5 +1,7 @@
 #include "CollideableManager.hpp"
 
+#include <iostream>
+
 std::vector<CollideableManager::dataNode> CollideableManager::data;
 
 void CollideableManager::addCollideable(Collider* c){
@@ -25,7 +27,7 @@ void CollideableManager::update(){
 	data[i].collider->collision_update();
     }
     for(int i = 0; i < data.size(); i++){
- 	for(int c = i; c < data.size(); c++){
+ 	for(int c = i + 1; c < data.size(); c++){
 	    if(data[i].collider->didCollide(data[c].collider)){
 		if(data[i].eventsSize != 10 && data[c].eventsSize != 10){
 			data[i].events[data[i].eventsSize] = CollisionEvent(data[c].collider);

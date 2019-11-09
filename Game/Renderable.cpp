@@ -7,6 +7,12 @@ Renderable::Renderable() : Component("renderable") {
     isShown = true;
 }
 
+Renderable::Renderable(VAO* _vao, ShaderProgram* _program) : Component("renderable") {
+    isShown = true;
+    vao = _vao;
+    shaderProgram = _program;
+}
+
 void Renderable::setVAO(VAO* _vao){
     vao = _vao;
 }

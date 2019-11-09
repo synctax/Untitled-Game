@@ -25,8 +25,10 @@ void BoundingObject::update(glm::vec3 _position, glm::quat rotation) {
     position = _position;
 }
 
-BoundingBox::BoundingBox() 
- : BoundingObject(BOX) {}
+BoundingBox::BoundingBox(float width, float height, float depth) 
+ : BoundingObject(BOX) {
+    dimensions = glm::vec3(width/2, height/2, depth/2);
+}
 
 bool BoundingBox::didCollide(BoundingObject* obj){
     switch(obj->type){
@@ -61,8 +63,8 @@ void BoundingBox::update(glm::vec3 _position, glm::quat rotation){
     //keep the box axis aligned 
 }
 
-BoundingSphere::BoundingSphere() 
- : BoundingObject(SPHERE) {}
+BoundingSphere::BoundingSphere(float _radius) 
+ : BoundingObject(SPHERE), radius(_radius) {}
 
 bool BoundingSphere::didCollide(BoundingObject* obj){
     switch(obj->type){

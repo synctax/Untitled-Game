@@ -4,9 +4,12 @@
 #include "VAO.hpp"
 #include "OBJLoader.hpp"
 #include "GameObject.hpp"
-//#include "MyComponent.hpp"
 #include "Transform.hpp"
 #include "WindowEventManager.hpp"
+#include "CollideableManager.hpp"
+
+#include "PlayerController.hpp"
+#include "Collider.hpp"
 
 #include <iostream>
 
@@ -31,28 +34,49 @@ int main(){
     Renderable* myCube2 = new Renderable();
     myCube2->setVAO(&cube2VAO);
     myCube2->setShaderProgram(&simple);
-
+    
+    //Child1 Object
     GameObject rootObject(std::string("root"), true);
-    GameObject child1(std::string("obj1"), true);
+    
+    GameObject child1(std::string("obj1"), false);
     rootObject.addChild(&child1);
-    GameObject child2(std::string("obj2"), true);
-    rootObject.addChild(&child2);
-    GameObject cameraObj = GameObject(std::string("cam1"), true);
-    Camera* myCamera = new Camera(1024, 768);
-    cameraObj.attachComponent(myCamera);
-    ((Transform*)cameraObj.getComponent("transform"))->setPosition(20, 5, -1);
-    //((Transform*)cameraObj.getComponent("transform"))->rotate(0,180,0);
-    ((Camera*)cameraObj.getComponent("camera"))->lookAt(0,0,0);
-
-    rootObject.addChild(&cameraObj);
 
     child1.attachComponent(myCube1);
-    child2.attachComponent(myCube2);
-    ((Transform*)child2.getComponent("transform"))->translate(10,0,0);
+    
+    //Child 2 Object 
+    GameObject child2(std::string("obj2"), true);
+    rootObject.addChild(&child2);
+    
+    Collider* child2Collider = new Collider(4, 2, 4);
+    child2.attachComponent(child2Collider);
 
-    //new HopperComponent(&rootObject, 2.0);
-    //rootObject.deleteChild(0);
-    //rootObject.renderable.rotate(0, 0.01, 0.0);
+    child2.attachComponent(myCube2);
+    
+    //player object
+    GameObject player(std::string("player"), true);
+    rootObject.addChild(&player);
+
+    Collider* playerCollider = new Collider(4, 2, 4);
+    player.attachComponent(playerCollider);
+
+    Renderable* playerRenderable = new Renderable(&cube2VAO, &simple);
+    player.attachComponent(playerRenderable);
+    
+    PlayerController* controller = new PlayerController();
+    player.attachComponent(controller);
+ 
+    //Camera Object
+    GameObject cameraObj = GameObject(std::string("cam1"), true);
+    player.addChild(&cameraObj);
+    
+    Camera* camera = new Camera(1024, 768);
+    cameraObj.attachComponent(camera); 
+    
+    //Transforming Objects 
+    ((Transform*)cameraObj.getComponent("transform"))->setPosition(0, 5, -10);
+    ((Camera*)cameraObj.getComponent("camera"))->lookAt(&player);
+
+    ((Transform*)child2.getComponent("transform"))->translate(10,0,0);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -71,24 +95,20 @@ int main(){
             previousTime = currentTime;
         }
 
-        myCamera->updateAspect(myWindow.getWidth(), myWindow.getHeight());
+        camera->updateAspect(myWindow.getWidth(), myWindow.getHeight());
         myWindow.clear();
 
         //((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
         Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
         child2Trans->rotate(0, 0.01, 0);
-        glm::vec3 child2Pos = child2Trans->calcGlobalPosition();
 
-        //((Transform*)cameraObj.getComponent("transform"))->lookAt(0,0,0);
-        //std::cout << "pos: " << child2Pos.x << std::endl;
+ 	CollideableManager::update();
 
-        //((Transform*)cameraObj.getComponent("transform"))->lookAt(0, 0, 0);
+	rootObject.update();
 
-	    rootObject.update();
+	rootObject.lateUpdate();
 
-	    rootObject.lateUpdate();
-
-        rootObject.render(myCamera->getProjectionMatrix(), myCamera->getViewMatrix());
+        rootObject.render(camera->getProjectionMatrix(), camera->getViewMatrix());
 
         myWindow.update();
 

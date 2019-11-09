@@ -107,13 +107,26 @@ void GameObject::lateUpdate(){
 }
 
 void GameObject::render(glm::mat4 projection,glm::mat4 view){
-    Renderable* renderable = (Renderable*)getComponent("renderable");
-    if(renderable != NULL){
-    	renderable->render(projection, view);
-    }
+    if(isActive){
+	Renderable* renderable = (Renderable*)getComponent("renderable");
+	if(renderable != NULL){
+	    renderable->render(projection, view);
+	}
 
-    for(auto & child : children){
-	child->render(projection,view);
+	for(auto & child : children){
+	    child->render(projection,view);
+	}
+    }
+}
+
+//this function may lead to issues as when a gameobject is reactived 
+//it activates all of its components
+void GameObject::setActive(bool state){
+    if(isActive != state){
+ 	isActive = state;
+ 	for(auto & c : components){
+       	    c->setEnabled(state);
+	}
     }
 }
 
