@@ -1,37 +1,33 @@
 #include "Collider.hpp"
 
-float min(float a, float b){
-    if(a > b){
-        return b;
-    } else {
-  	return a;
-    }
+#include "CollideableManager.hpp"
+
+void Collider::start(){
+    //register to some kind've scene manager(stores collideables)
+    CollideableManager::addCollideable(this);
 }
 
-float max(float a, float b){
-    if(a > b){
-	return a;
-    } else {
-	return b;
+void Collider::onEnable(){
+    CollideableManager::addCollideable(this);
+}
+
+void Collider::onDisable(){
+    CollideableManager::removeCollideable(this);
+}
+
+void Collider::update(){
+    //check for collisions from CollideableManager and notify GameObject
+    std::vector<CollisionEvent> events = CollideableManager::getCollisions(this);
+    for(auto & e : events){
+	//notify the parent object  	
     } 
 }
 
-Collider::Collider(float _width, float _height, float _depth) : Component("collider") {
-    type = PRISM;
-    dimensions = glm::vec3(_width, _height, _depth);
-    offset = glm::vec3(0, 0, 0);
+void Collider::collision_update(){
+    Transform* objTransform = (Transform*)object->getComponent("transform");
+    bounding->update(objTransform->calcGlobalPosition(), objTransform->calcGlobalRotation());
 }
 
-Collider::Collider(float _width, float _height, float _depth, float x, float y, float z) : Component("collider") {
-    type = PRISM;
-    
-}
-
-void start(){
-    //register to some kind've scene manager(stores collideables)
-}
-void update(){
-    //check for collisions and send messages
-    //update my bounding box
-
+bool Collider::didCollide(Collider* obj){
+    return bounding->didCollide(obj->getBounding());
 }

@@ -20,13 +20,11 @@ public:
     glm::vec3 getPosition(){return position;}
     glm::vec3 getRotation(){return rotation;}
     glm::vec3 getScale(){return size;}
-
-    /* May want to implement these function later
+    /*
     glm::vec3 calcGlobalPosition();
     glm::vec3 calcGlobalRotation();
     glm::vec3 calcGlobalScale();
     */
-
     glm::mat4 calcModelMatrix();
 private:
     glm::vec3 position;

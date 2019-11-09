@@ -12,7 +12,7 @@ public:
     //Component(GameObject* _object);
     virtual ~Component(){}
    
-    virtual void start(){return;}    
+    virtual void start(){return;}
 
     virtual void update(){return;}
     virtual void lateUpdate(){return;}
@@ -22,10 +22,13 @@ public:
     std::string getName(){return name;}    
     
     bool getEnabled() {return isEnabled;}
-    void setEnabled(bool state) {isEnabled = state;}
+    void setEnabled(bool state);
 
     friend GameObject;
 protected:
+    virtual void onEnable(){return;}
+    virtual void onDisable(){return;}
+
     std::string name;   
 
     bool isEnabled;
