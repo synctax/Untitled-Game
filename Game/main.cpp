@@ -7,6 +7,7 @@
 //#include "MyComponent.hpp"
 #include "Transform.hpp"
 #include "WindowEventManager.hpp"
+#include "FirstPersonController.hpp"
 
 #include <iostream>
 
@@ -40,9 +41,11 @@ int main(){
     GameObject cameraObj = GameObject(std::string("cam1"), true);
     Camera* myCamera = new Camera(1024, 768);
     cameraObj.attachComponent(myCamera);
+    FirstPersonController* fpc = new FirstPersonController();
+    cameraObj.attachComponent(fpc);
     ((Transform*)cameraObj.getComponent("transform"))->setPosition(20, 5, -1);
-    //((Transform*)cameraObj.getComponent("transform"))->rotate(0,180,0);
-    ((Camera*)cameraObj.getComponent("camera"))->lookAt(0,0,0);
+    ((Transform*)cameraObj.getComponent("transform"))->rotate(0,180,0);
+    //((Camera*)cameraObj.getComponent("camera"))->lookAt(0,0,0);
 
     rootObject.addChild(&cameraObj);
 
@@ -68,29 +71,30 @@ int main(){
         {
             std::cout << frameCount << std::endl;
             frameCount = 0;
+        }
+        if (currentTime-previousTime > 0.016){
+
+
+            myCamera->updateAspect(myWindow.getWidth(), myWindow.getHeight());
+            myWindow.clear();
+            //((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
+            Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
+            child2Trans->rotate(0, 0.01, 0);
+            glm::vec3 child2Pos = child2Trans->calcGlobalPosition();
+
+
+            //((Transform*)cameraObj.getComponent("transform"))->lookAt(0, 0, 0);
+
+            rootObject.update();
+
+            rootObject.lateUpdate();
+
+            rootObject.render(myCamera->getProjectionMatrix(), myCamera->getViewMatrix());
+
+            myWindow.update();
+
             previousTime = currentTime;
         }
-
-        myCamera->updateAspect(myWindow.getWidth(), myWindow.getHeight());
-        myWindow.clear();
-
-        //((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
-        Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
-        child2Trans->rotate(0, 0.01, 0);
-        glm::vec3 child2Pos = child2Trans->calcGlobalPosition();
-
-        //((Transform*)cameraObj.getComponent("transform"))->lookAt(0,0,0);
-        //std::cout << "pos: " << child2Pos.x << std::endl;
-
-        //((Transform*)cameraObj.getComponent("transform"))->lookAt(0, 0, 0);
-
-	    rootObject.update();
-
-	    rootObject.lateUpdate();
-
-        rootObject.render(myCamera->getProjectionMatrix(), myCamera->getViewMatrix());
-
-        myWindow.update();
 
     }
     return 1;

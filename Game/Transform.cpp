@@ -9,20 +9,23 @@ Transform::Transform() : Component(std::string("transform")) {
     position = glm::vec3(0, 0, 0);
     rotation = glm::vec3(0, 0, 0);
     size = glm::vec3(1, 1, 1);
+    forward = glm::vec3(0,0,1);
+    right = glm::vec3(-1,0,0);
 }
 
 void Transform::translate(float x, float y, float z){
-    position += glm::vec3(x, y, z); 
+    position += glm::vec3(x, y, z);
 }
 
 void Transform::rotate(float x, float y, float z){
-    rotation *= glm::quat(glm::vec3(x, y, z)); 
-    //rotation += glm::vec3(x, y, z);
+    rotation *= glm::quat(glm::vec3(x, y, z));
+    rotation = glm::normalize(rotation);
+    calcDirectionVectors();
 }
 
 void Transform::scale(float x, float y, float z){
     size *= glm::vec3(x, y, z);
-} 
+}
 
 void Transform::setPosition(float x, float y, float z){
     position = glm::vec3(x, y, z);
@@ -30,6 +33,7 @@ void Transform::setPosition(float x, float y, float z){
 
 void Transform::setRotation(float x, float y, float z){
     rotation = glm::quat(glm::vec3(x, y, z));
+    calcDirectionVectors();
 }
 
 void Transform::setScale(float x, float y, float z){
@@ -54,6 +58,13 @@ glm::vec3 Transform::calcGlobalScale(){
     } else {
         return size;
     }
+}
+
+void Transform::calcDirectionVectors(){
+    glm::quat rot = calcGlobalRotation();
+    glm::mat4 rMat = glm::mat4_cast(rot);
+    forward = glm::vec3(rMat*glm::vec4(0,0,1,0));
+    right = glm::vec3(rMat*glm::vec4(-1,0,0,0));
 }
 
 glm::mat4 Transform::calcModelMatrix(){
