@@ -23,29 +23,30 @@ void CollideableManager::removeCollideable(Collider* c){
 
 void CollideableManager::update(){
     for(int i = 0; i < data.size(); i++){
-	data[i].eventsSize = 0; 
-	data[i].collider->collision_update();
+        data[i].eventsSize = 0; 
+        data[i].collider->collision_update();
     }
     for(int i = 0; i < data.size(); i++){
- 	for(int c = i + 1; c < data.size(); c++){
-	    if(data[i].collider->didCollide(data[c].collider)){
-		if(data[i].eventsSize != 10 && data[c].eventsSize != 10){
-			data[i].events[data[i].eventsSize] = CollisionEvent(data[c].collider);
-			data[i].eventsSize++;
-			data[c].events[data[c].eventsSize] = CollisionEvent(data[i].collider);
-			data[c].eventsSize++;
-		}	
-	    } 
-	}
+        for(int c = i + 1; c < data.size(); c++){
+            std::vector<Contact> contacts = data[i].collider->didCollide(data[c].collider);
+            if(contacts.size() != 0){
+                if(data[i].eventsSize != 10 && data[c].eventsSize != 10){
+                    data[i].events[data[i].eventsSize] = CollisionEvent(data[c].collider, contacts);
+                    data[i].eventsSize++;
+                    data[c].events[data[c].eventsSize] = CollisionEvent(data[i].collider, contacts);
+                    data[c].eventsSize++;
+                }	
+            } 
+        }
     }
 }
 
 std::vector<CollisionEvent> CollideableManager::getCollisions(Collider* c){
     std::vector<CollisionEvent> events = std::vector<CollisionEvent>(0); 
     for(auto & node : data){
-	if(node.collider == c){
-	    events.assign(&(node.events[0]), &(node.events[node.eventsSize])); 
-	}
+        if(node.collider == c){
+            events.assign(&(node.events[0]), &(node.events[node.eventsSize])); 
+        }
     }
     return events;
 }

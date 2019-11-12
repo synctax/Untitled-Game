@@ -31,13 +31,17 @@ void Collider::update(){
     Renderable* renderable = (Renderable*)object->getComponent("renderable"); 
     
     renderable->setColor(1, 1, 1);
-
     std::vector<CollisionEvent> events = CollideableManager::getCollisions(this);   
     for(auto & e : events){
-	//notify the parent object
-	renderable->setColor(1, 0, 0);
-	break;
-  	//std::cout << object->getName() << " Collided with " << e.other->object->getName() << std::endl;	
+        //notify the parent object
+        glm::vec3 mt = e.contacts[0].minTran * (float)1.01;
+        std::cout << "Made Contact: " << mt.x << " " << mt.y << " " << mt.z << std::endl;
+        if(object->getName() == "player"){ 
+            ((Transform*)object->getComponent("transform"))->translate(mt.x, mt.y, mt.z);
+        }
+        renderable->setColor(1, 0, 0);
+        break;
+        //std::cout << object->getName() << " Collided with " << e.other->object->getName() << std::endl;
     } 
 }
 
@@ -46,6 +50,6 @@ void Collider::collision_update(){
     bounding->update(objTransform->calcGlobalPosition(), objTransform->calcGlobalRotation());
 }
 
-bool Collider::didCollide(Collider* obj){
+std::vector<Contact> Collider::didCollide(Collider* obj){
     return bounding->didCollide(obj->getBounding());
 }

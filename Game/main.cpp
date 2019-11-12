@@ -23,7 +23,7 @@ int main(){
     OBJLoader::loadOBJ(&cubeVAO,"untitled1.obj");
 
     VAO cube2VAO = VAO();
-    OBJLoader::loadOBJ(&cube2VAO,"untitled.obj");
+    OBJLoader::loadOBJ(&cube2VAO,"cube.obj");
 
     ShaderProgram simple("simple.vs", "simple.fs");
 
@@ -47,7 +47,7 @@ int main(){
     GameObject child2(std::string("obj2"), true);
     rootObject.addChild(&child2);
     
-    Collider* child2Collider = new Collider(4, 2, 4);
+    Collider* child2Collider = new Collider(2, 2, 2);
     child2.attachComponent(child2Collider);
 
     child2.attachComponent(myCube2);
@@ -56,15 +56,15 @@ int main(){
     GameObject player(std::string("player"), true);
     rootObject.addChild(&player);
 
-    Collider* playerCollider = new Collider(4, 2, 4);
-    player.attachComponent(playerCollider);
-
     Renderable* playerRenderable = new Renderable(&cube2VAO, &simple);
     player.attachComponent(playerRenderable);
     
     PlayerController* controller = new PlayerController();
     player.attachComponent(controller);
  
+    Collider* playerCollider = new Collider(2, 2, 2);
+    player.attachComponent(playerCollider);
+    
     //Camera Object
     GameObject cameraObj = GameObject(std::string("cam1"), true);
     player.addChild(&cameraObj);
@@ -73,10 +73,10 @@ int main(){
     cameraObj.attachComponent(camera); 
     
     //Transforming Objects 
-    ((Transform*)cameraObj.getComponent("transform"))->setPosition(0, 5, -10);
+    ((Transform*)cameraObj.getComponent("transform"))->setPosition(0, 10, -1);
     ((Camera*)cameraObj.getComponent("camera"))->lookAt(&player);
 
-    ((Transform*)child2.getComponent("transform"))->translate(10,0,0);
+    ((Transform*)child2.getComponent("transform"))->translate(10,0,10);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -101,12 +101,15 @@ int main(){
         //((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
         Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
         child2Trans->rotate(0, 0.01, 0);
+        glm::vec3 playerTrans = ((Transform*)player.getComponent("transform"))->calcGlobalPosition();
 
- 	CollideableManager::update();
+        //std::cout << playerTrans.x << " " << playerTrans.y << " " << playerTrans.z << std::endl; 
 
-	rootObject.update();
+        CollideableManager::update();
 
-	rootObject.lateUpdate();
+        rootObject.update();
+
+        rootObject.lateUpdate();
 
         rootObject.render(camera->getProjectionMatrix(), camera->getViewMatrix());
 

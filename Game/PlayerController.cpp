@@ -8,7 +8,7 @@
 
 PlayerController::PlayerController() : Component("controller") {
     transform = NULL;
-    speed = 0.1;
+    speed = 0.01;
     rotSpeed = PI/1000;
     rotDir = 0;
     moveDir = 0;

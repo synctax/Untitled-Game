@@ -5,6 +5,28 @@
 
 #include "BoundingObject.hpp"
 
+#include <vector>
+
+class Collider;
+
+struct CollisionEvent {
+    CollisionEvent() 
+     : other(NULL), contacts(std::vector<Contact>()) {}
+    CollisionEvent(Collider* _other, 
+                                std::vector<Contact> _contacts) 
+     : other(_other), contacts(_contacts) {}
+
+    Collider* other;
+    std::vector<Contact> contacts; 
+};
+
+struct PossibleCollide {
+    PossibleCollide(bool did, CollisionEvent _c) 
+     : didCollide(did), c(_c) {}
+    bool didCollide;
+    CollisionEvent c;
+};
+
 //class that encapsulates communication between 
 //object and Collideable Manager
 class Collider : public Component {
@@ -19,7 +41,7 @@ public:
     virtual void onDisable();
 
     void collision_update();
-    bool didCollide(Collider* obj);
+    std::vector<Contact> didCollide(Collider* obj);
 
     BoundingObject* getBounding(){return bounding;}  
 private:
