@@ -42,11 +42,7 @@ void Camera::lateUpdate(){
             viewDirection = glm::normalize(target-position);
             break;
         case lookAtMode::DISABLED:
-            glm::quat rotation = ((Transform*)object->getComponent("transform"))->calcGlobalRotation();
-            glm::mat4 rMat = glm::mat4_cast(rotation);
-
-            viewDirection = glm::vec3(rMat*glm::vec4(0, 0, 1, 0));
-            glm::vec3 rot = glm::eulerAngles(rotation);
+            viewDirection = ((Transform*)object->getComponent("transform"))->getForward();
             break;
     }
     calculateMatrices();

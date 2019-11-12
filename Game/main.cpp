@@ -10,6 +10,7 @@
 
 #include "PlayerController.hpp"
 #include "Collider.hpp"
+#include "FirstPersonController.hpp"
 
 #include <iostream>
 
@@ -78,8 +79,7 @@ int main(){
     
     //Transforming Objects
     ((Transform*)cameraObj.getComponent("transform"))->setPosition(0, 15, -5);
-    ((Camera*)cameraObj.getComponent("camera"))->lookAt(&player);
-
+    
     ((Transform*)child2.getComponent("transform"))->translate(10,0,10);
 
     glEnable(GL_DEPTH_TEST);
@@ -96,28 +96,29 @@ int main(){
         {
             std::cout << frameCount << std::endl;
             frameCount = 0;
+        }
+        if (currentTime-previousTime > 0.016){
+
+            camera->updateAspect(myWindow.getWidth(), myWindow.getHeight());
+            myWindow.clear();
+
+            //((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
+            //Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
+            //child2Trans->rotate(0, 0, 0.01);
+            glm::vec3 playerTrans = ((Transform*)player.getComponent("transform"))->calcGlobalPosition();
+
+            //std::cout << playerTrans.x << " " << playerTrans.y << " " << playerTrans.z << std::endl; 
+
+            CollideableManager::update();
+
+            rootObject.update();
+            rootObject.lateUpdate();
+
+            rootObject.render(camera->getProjectionMatrix(), camera->getViewMatrix());
+
+            myWindow.update();
             previousTime = currentTime;
         }
-
-        camera->updateAspect(myWindow.getWidth(), myWindow.getHeight());
-        myWindow.clear();
-
-        //((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
-        //Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
-        //child2Trans->rotate(0, 0, 0.01);
-        glm::vec3 playerTrans = ((Transform*)player.getComponent("transform"))->calcGlobalPosition();
-
-        //std::cout << playerTrans.x << " " << playerTrans.y << " " << playerTrans.z << std::endl; 
-
-        CollideableManager::update();
-
-        rootObject.update();
-
-        rootObject.lateUpdate();
-
-        rootObject.render(camera->getProjectionMatrix(), camera->getViewMatrix());
-
-        myWindow.update();
 
     }
     return 1;

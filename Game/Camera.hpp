@@ -36,6 +36,8 @@ public:
     inline glm::vec3 getViewDirection() const {return viewDirection;};
     inline glm::mat4 getProjectionMatrix() const {return projectionMatrix;};
     inline glm::mat4 getViewMatrix() const {return viewMatrix;};
+    inline float getWidth() const {return width;};
+    inline float getHeight() const {return height;};
 private:
     void calculateMatrices();
 };
