@@ -5,27 +5,12 @@
 
 #include "BoundingObject.hpp"
 
+class Collider;
+#include "CollideableManager.hpp"
+
 #include <vector>
 
 class Collider;
-
-struct CollisionEvent {
-    CollisionEvent() 
-     : other(NULL), contacts(std::vector<Contact>()) {}
-    CollisionEvent(Collider* _other, 
-                                std::vector<Contact> _contacts) 
-     : other(_other), contacts(_contacts) {}
-
-    Collider* other;
-    std::vector<Contact> contacts; 
-};
-
-struct PossibleCollide {
-    PossibleCollide(bool did, CollisionEvent _c) 
-     : didCollide(did), c(_c) {}
-    bool didCollide;
-    CollisionEvent c;
-};
 
 //class that encapsulates communication between 
 //object and Collideable Manager
@@ -44,6 +29,8 @@ public:
     std::vector<Contact> didCollide(Collider* obj);
 
     BoundingObject* getBounding(){return bounding;}  
+
+    friend class CollideableManager;
 private:
     BoundingObject* bounding;    
 };

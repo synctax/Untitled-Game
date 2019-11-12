@@ -6,8 +6,10 @@
 #include <glm/gtc/quaternion.hpp>
 
 struct Contact {
-    Contact(glm::vec3 mt) : minTran(mt) {}
-    glm::vec3 minTran;
+    Contact(glm::vec3 norm, float depth) 
+     : normal(norm), penDepth(depth) {}
+    glm::vec3 normal;
+    float penDepth;
     //glm::vec3 point;
     //glm::vec3 normal;
     //glm::vec3 other_normal;

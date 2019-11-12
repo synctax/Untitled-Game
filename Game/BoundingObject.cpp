@@ -78,15 +78,15 @@ std::vector<Contact> BoundingBox::didCollide(BoundingObject* obj){
                 }
                 if(s < minOverlap){
                     minOverlap = s;
+                    minTran = a;
                     if(o_min < m_min){
-                        s *= -1; 
+                        minTran *= -1; 
                     }
-                    minTran = a * s;
                 }
                 ai++;
 	        }
             if(collide){
-                contacts.push_back(Contact(minTran));    
+                contacts.push_back(Contact(minTran, minOverlap));    
             }
 	        return contacts;
 	        break;

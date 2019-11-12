@@ -19,52 +19,56 @@ int main(){
     Window myWindow = Window("Window", 1024, 768);
     myWindow.disableCursor();
 
-    VAO cubeVAO = VAO();
-    OBJLoader::loadOBJ(&cubeVAO,"untitled1.obj");
+    VAO bodyVAO = VAO();
+    OBJLoader::loadOBJ(&bodyVAO,"character.obj");
 
-    VAO cube2VAO = VAO();
-    OBJLoader::loadOBJ(&cube2VAO,"cube.obj");
+    VAO cubeVAO = VAO();
+    OBJLoader::loadOBJ(&cubeVAO,"cube.obj");
 
     ShaderProgram simple("simple.vs", "simple.fs");
-
-    Renderable* myCube1 = new Renderable();
-    myCube1->setVAO(&cubeVAO);
-    myCube1->setShaderProgram(&simple);
-
-    Renderable* myCube2 = new Renderable();
-    myCube2->setVAO(&cube2VAO);
-    myCube2->setShaderProgram(&simple);
     
-    //Child1 Object
+    //root Object
     GameObject rootObject(std::string("root"), true);
     
+    //child1 object
+    /*
     GameObject child1(std::string("obj1"), false);
     rootObject.addChild(&child1);
 
     child1.attachComponent(myCube1);
-    
+    */
     //Child 2 Object 
     GameObject child2(std::string("obj2"), true);
     rootObject.addChild(&child2);
     
     Collider* child2Collider = new Collider(2, 2, 2);
     child2.attachComponent(child2Collider);
-
-    child2.attachComponent(myCube2);
+    
+    Renderable* child2Renderable = new Renderable(&cubeVAO, &simple);
+    child2.attachComponent(child2Renderable);
     
     //player object
     GameObject player(std::string("player"), true);
     rootObject.addChild(&player);
 
-    Renderable* playerRenderable = new Renderable(&cube2VAO, &simple);
+    Renderable* playerRenderable = new Renderable(&bodyVAO, &simple);
     player.attachComponent(playerRenderable);
     
+    GameObject playerHead(std::string("playerHead"), true);
+    player.addChild(&playerHead);
+
+    Renderable* playerHeadRenderable = new Renderable(&cubeVAO, &simple);
+    playerHead.attachComponent(playerHeadRenderable);
+    
+    ((Transform*)playerHead.getComponent("transform"))->translate(0, 7, 0);
+    ((Transform*)playerHead.getComponent("transform"))->scale(0.5, 0.5, 0.5);
+
     PlayerController* controller = new PlayerController();
     player.attachComponent(controller);
- 
+    
     Collider* playerCollider = new Collider(2, 2, 2);
     player.attachComponent(playerCollider);
-    
+
     //Camera Object
     GameObject cameraObj = GameObject(std::string("cam1"), true);
     player.addChild(&cameraObj);
@@ -72,8 +76,8 @@ int main(){
     Camera* camera = new Camera(1024, 768);
     cameraObj.attachComponent(camera); 
     
-    //Transforming Objects 
-    ((Transform*)cameraObj.getComponent("transform"))->setPosition(0, 10, -1);
+    //Transforming Objects
+    ((Transform*)cameraObj.getComponent("transform"))->setPosition(0, 15, -5);
     ((Camera*)cameraObj.getComponent("camera"))->lookAt(&player);
 
     ((Transform*)child2.getComponent("transform"))->translate(10,0,10);
@@ -99,8 +103,8 @@ int main(){
         myWindow.clear();
 
         //((Transform*)rootObject.getComponent("transform"))->rotate(0, 0.001, 0.0);
-        Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
-        child2Trans->rotate(0, 0.01, 0);
+        //Transform* child2Trans = ((Transform*)child2.getComponent("transform"));
+        //child2Trans->rotate(0, 0, 0.01);
         glm::vec3 playerTrans = ((Transform*)player.getComponent("transform"))->calcGlobalPosition();
 
         //std::cout << playerTrans.x << " " << playerTrans.y << " " << playerTrans.z << std::endl; 

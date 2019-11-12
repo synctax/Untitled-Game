@@ -2,6 +2,18 @@
 
 #include "Collider.hpp"
 
+struct CollisionEvent {
+    CollisionEvent() 
+     : obj(NULL), other(NULL), contacts(std::vector<Contact>()) {}
+    
+    CollisionEvent(GameObject* _obj, Collider* _other, std::vector<Contact> _contacts)
+     : obj(_obj), other(_other), contacts(_contacts) {}
+    
+    GameObject* obj; 
+    Collider* other;
+    std::vector<Contact> contacts; 
+};
+
 class CollideableManager {
 public:
     static void addCollideable(Collider* c);

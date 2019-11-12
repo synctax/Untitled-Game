@@ -29,11 +29,15 @@ void CollideableManager::update(){
     for(int i = 0; i < data.size(); i++){
         for(int c = i + 1; c < data.size(); c++){
             std::vector<Contact> contacts = data[i].collider->didCollide(data[c].collider);
+            std::vector<Contact> oppContacts;
+            for(auto & c : contacts){
+                oppContacts.push_back(Contact((float)-1.0*c.normal, c.penDepth)); 
+            }
             if(contacts.size() != 0){
                 if(data[i].eventsSize != 10 && data[c].eventsSize != 10){
-                    data[i].events[data[i].eventsSize] = CollisionEvent(data[c].collider, contacts);
+                    data[i].events[data[i].eventsSize] = CollisionEvent(data[c].collider->object, data[c].collider, contacts);
                     data[i].eventsSize++;
-                    data[c].events[data[c].eventsSize] = CollisionEvent(data[i].collider, contacts);
+                    data[c].events[data[c].eventsSize] = CollisionEvent(data[i].collider->object, data[i].collider, contacts);
                     data[c].eventsSize++;
                 }	
             } 
