@@ -2,26 +2,38 @@
 
 #include "Component.hpp"
 #include "WindowEventManager.hpp"
-
+#include "GameObject.hpp"
 #include "Transform.hpp"
+#include "Camera.hpp"
+#include <glm/glm.hpp>
 
-class PlayerController : public Component, public WindowEventSubscriber {
+using namespace glm;
+
+class PlayerController : public Component, public WindowEventSubscriber{
+private:
+    float lastTime;
+
+    float speed;
+    float mouseSpeed;
+
+    vec2 rotate;
+    vec3 move;
+
+    vec3 translationVector;
+    vec2 rotationVector;
+
+    GameObject* head;
+    GameObject* camera;
 public:
     PlayerController();
-   
-    virtual void start();
 
+    virtual void start();
     virtual void update();
-    //virtual void onEnable();
-    //virtual void onDisable(); 
+
 private:
     virtual void onKey(int key, int scancode, int action, int mods);
-    
-    float speed;
-    float rotSpeed;
- 
-    float rotDir;   
-    float moveDir;    
- 
-    Transform* transform;
+    virtual void onCursorMove(double xpos, double ypos);
+
+    void calcTranslation(float dt);
+    void calcRotation(float dt);
 };

@@ -35,7 +35,6 @@ void Collider::update(){
     for(auto & e : events){
         //notify the parent object
         glm::vec3 mt = e.contacts[0].normal * e.contacts[0].penDepth * (float)1.01;
-        std::cout << "Made Contact: " << mt.x << " " << mt.y << " " << mt.z << std::endl;
         if(object->getName() == "player"){ 
             ((Transform*)object->getComponent("transform"))->translate(mt.x, mt.y, mt.z);
         }

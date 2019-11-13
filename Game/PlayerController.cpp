@@ -1,69 +1,123 @@
 #include "PlayerController.hpp"
 
-#include "Transform.hpp"
+PlayerController::PlayerController() :
+    Component(std::string("firstperson-controller")), WindowEventSubscriber() {
 
-#include <iostream>
+    WindowEventSubscriber::subscribe(WindowEventManager::events::KEYBOARD_INPUT);
+    WindowEventSubscriber::subscribe(WindowEventManager::events::CURSOR_POSITION);
 
-#define PI 3.141592 
+    speed = 10;
+    mouseSpeed = 0.3;
 
-PlayerController::PlayerController() : Component("controller") {
-    transform = NULL;
-    speed = 0.01;
-    rotSpeed = PI/1000;
-    rotDir = 0;
-    moveDir = 0;
+    lastTime = 0;
+
+    rotate = vec2(0,0);
+    move = vec3(0,0,0);
+
+    translationVector = vec3(0,0,0);
+    rotationVector = vec2(0,180);
+}
+
+void PlayerController::onKey(int key, int scancode, int action, int mods) {
+    vec3 fv = ((Transform*)object->getComponent("transform"))->getForward();
+    vec3 rv = ((Transform*)object->getComponent("transform"))->getRight();
+    if (action == GLFW_PRESS){
+        switch(key){
+            case GLFW_KEY_W:
+                move += vec3(0, 0, 1);
+                break;
+            case GLFW_KEY_A:
+                move -= vec3(1, 0, 0);
+                break;
+            case GLFW_KEY_S:
+                move -= vec3(0, 0, 1);
+                break;
+            case GLFW_KEY_D:
+                move += vec3(1, 0, 0);
+                break;
+            case GLFW_KEY_SPACE:
+                move += vec3(0,1,0);
+                break;
+            case GLFW_KEY_LEFT_SHIFT:
+                move -= vec3(0,1,0);
+                break;
+            default:
+                break;
+        }
+    }else if (action == GLFW_RELEASE){
+        switch(key){
+            case GLFW_KEY_W:
+                move -= vec3(0, 0, 1);
+                break;
+            case GLFW_KEY_A:
+                move += vec3(1, 0, 0);
+                break;
+            case GLFW_KEY_S:
+                move += vec3(0, 0, 1);
+                break;
+            case GLFW_KEY_D:
+                move -= vec3(1, 0, 0);
+                break;
+            case GLFW_KEY_SPACE:
+                move -= vec3(0,1,0);
+                break;
+            case GLFW_KEY_LEFT_SHIFT:
+                move += vec3(0,1,0);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+void PlayerController::onCursorMove(double xpos, double ypos) {
+    int width = ((Camera*)camera->getComponent("camera"))->getWidth();
+    int height = ((Camera*)camera->getComponent("camera"))->getHeight();
+
+    rotate = vec2(0,float(width/2-xpos));
+    rotate += vec2(-float(height/2-ypos),0);
+    rotate = vec2(max(rotate.x, (float)-70.0), rotate.y);
+}
+
+void PlayerController::calcTranslation(float dt){
+    if (length(move) <= 0){ translationVector = vec3(0); return;}
+
+    vec3 forward = ((Transform*)object->getComponent("transform"))->getForward();
+    vec3 right = ((Transform*)object->getComponent("transform"))->getRight();
+
+    translationVector = (move.x*right) + (move.y*vec3(0,1,0)) + (move.z*forward);
+    translationVector = normalize(translationVector) * speed * dt;
+}
+
+void PlayerController::calcRotation(float dt){
+    rotationVector += rotate * dt * mouseSpeed;
+
+    if (rotationVector.x > 1.5){
+        rotationVector.x = 1.5;
+    }else if (rotationVector.x < -1.5){
+        rotationVector.x = -1.5;
+    }
+
+    rotate = vec2(0,0);
 }
 
 void PlayerController::start(){
-    std::cout << "player controller started" << std::endl;
-    transform = (Transform*)object->getComponent("transform");
-    WindowEventSubscriber::subscribe(WindowEventManager::events::KEYBOARD_INPUT);  
+    head = object->getChild("head");
+    camera = head->getChild("camera");
+    std::cout << "head: " << head << " camera: " << camera << std::endl;
 }
 
 void PlayerController::update(){
-    transform->rotate(0, rotDir, 0);
-    glm::mat4 rMat = glm::mat4_cast(transform->calcGlobalRotation());
-    glm::vec3 forward = glm::vec3(rMat*glm::vec4(0, 0, 1, 0));
-    glm::vec3 deltaPos = glm::vec3(forward.x * moveDir, forward.y * moveDir, forward.z * moveDir);
-    transform->translate(deltaPos.x, deltaPos.y, deltaPos.z); 
-} 
+    float deltaTime = float(glfwGetTime()-lastTime);
+    Transform* objTf = (Transform*)object->getComponent("transform");
+    Transform* headTF = (Transform*)head->getComponent("transform");
 
-void PlayerController::onKey(int key, int scancode, int action, int mods){
-    if(isEnabled){
-        //may want to move some of this to transform
-    	switch(action){
-	    case GLFW_PRESS:
-		switch(key){
-      		    case GLFW_KEY_W:
-			moveDir += speed;
-			break;
-		    case GLFW_KEY_A:
-			rotDir += rotSpeed;
-			break;
-		    case GLFW_KEY_S:
-			moveDir += -speed;
-			break;
-		    case GLFW_KEY_D:
-			rotDir += -rotSpeed;
-			break;
-		}
-		break;
-	    case GLFW_RELEASE:
-		switch(key){
-      		    case GLFW_KEY_W:
-			moveDir -= speed;
-			break;
-		    case GLFW_KEY_A:
-			rotDir -= rotSpeed;
-			break;
-		    case GLFW_KEY_S:
-			moveDir -= -speed;
-			break;
-		    case GLFW_KEY_D:
-			rotDir -= -rotSpeed;
-			break;
-		}
-		break;
-  	}
-    }
+    calcRotation(deltaTime);
+    objTf->setRotation(0,rotationVector.y,0);
+    headTF->setRotation(rotationVector.x,0,0);
+
+    calcTranslation(deltaTime);
+    objTf->translate(translationVector.x,0,translationVector.z);
+
+    lastTime = glfwGetTime();
 }
