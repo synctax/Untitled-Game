@@ -20,7 +20,9 @@ public:
 
     void setPosition(float x, float y, float z);
     void setRotation(float x, float y, float z);
-    void setScale(float x, float y, float z);
+    void setRotation(glm::quat _rotation);
+
+	void setScale(float x, float y, float z);
 
     inline glm::vec3 getPosition() const {return position;}
     inline glm::quat getRotation() const {return rotation;}

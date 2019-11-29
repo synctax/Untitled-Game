@@ -1,31 +1,37 @@
 IDIR=../include
 ENGINC=../../Engine/include
 CC=g++
-CFLAGS= -std=c++11 -I $(IDIR) -I $(ENGINC) 
+CFLAGS= -std=c++11 -I $(IDIR) -I $(ENGINC) -I/usr/local/opt/libxml2/include/libxml2
 
-LIBS=../../Engine/lib/Engine.o -lGLEW -lglfw -framework OpenGL
+LIBS=-lGLEW -lglfw -framework OpenGL -lxml2 -L/usr/local/opt/libxml2/lib
 
-COMPS= FirstPersonController PlayerController
-COMPDIR=Components
+ODIR=.obj
+DEPDIR=$(ODIR)/.dep
+DEPFLAGS=-MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td
+POSTCOMPILE = mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
 
-DEPS=$(patsubst %, $(IDIR)/%.hpp, $(COMPS))
-OBJ=$(patsubst %, $(COMPDIR)/obj/%.o, $(COMPS))
+FINDSRC=$(shell find . -type f -name "*.cpp")
+SRCS=$(FINDSRC:./%.cpp=%.cpp)
+OBJ=$(SRCS:%.cpp=$(ODIR)/%.o)
+OBJ+=../../Engine/lib/Engine.o
+DEPS=$(SRCS:%.cpp=$(DEPDIR)/%.d)
 
-$(COMPDIR)/obj/%.o: $(COMPDIR)/%.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+COMPILE.c=$(CC) $(DEPFLAGS) $(CFLAGS) -c
 
-Game: main.o MyGame.o $(OBJ)
+$(ODIR)/%.o: %.cpp $(DEPDIR)/%.d | $(DEPDIR) 
+	mkdir -p "$(@D)"
+	mkdir -p $(patsubst $(ODIR)/%, $(DEPDIR)/%, $(@D))		
+	$(COMPILE.c) -o $@ $<
+	$(POSTCOMPILE)
+
+Game: $(OBJ)
 	$(CC) -o $@ $^ $(LIBS)
 
-main.o: main.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-MyGame.o: MyGame.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+$(DEPS):
+include $(wildcard $(DEPS))
 
 .PHONY: clean
 
 clean:
 	rm main.o MyGame.o Game
 	rm -f $(COMPDIR)/obj/*.o 
-

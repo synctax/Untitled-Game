@@ -1,16 +1,19 @@
 #include "Game.hpp"
 
+#include "Time.hpp"
 #include "Camera.hpp"
 #include "CollideableManager.hpp"
 
 using namespace Engine;
 
 void Game::run(){
-	init();
-	
+	init();	
 	start();
 
 	mainloop();
+
+	finish();
+	cleanup();
 }
 
 void Game::init(){
@@ -20,10 +23,18 @@ void Game::init(){
 	camera = new GameObject("camera", true);
 	camera->attachComponent(new Camera(1024, 768));
 	root->addChild(camera);
+	
+	Time::start();
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glEnable(GL_CULL_FACE);
+}
+
+void Game::cleanup(){
+	delete win;
+	delete camera;
+	delete root;
 }
 
 void Game::mainloop(){
@@ -40,6 +51,8 @@ void Game::mainloop(){
 		}
 		if (currentTime-previousTime > 0.016){
 			
+			Time::update();
+
 			Camera* mainCam = (Camera*)camera->getComponent("camera");
 			mainCam->updateAspect(win->getWidth(), win->getHeight());
 			win->clear();

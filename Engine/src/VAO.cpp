@@ -1,5 +1,7 @@
 #include "VAO.hpp"
 
+#include <iostream>
+
 using namespace Engine;
 
 VAO::VAO(){
@@ -15,7 +17,7 @@ VAO::~VAO(){
     }
 }
 
-void VAO::addBuffer(int attrib, GLfloat* data, int entries, int entrySize){
+void VAO::addFloatBuffer(int attrib, GLfloat* data, int entries, int entrySize){
 
     bind();
     GLuint vbo;
@@ -27,6 +29,29 @@ void VAO::addBuffer(int attrib, GLfloat* data, int entries, int entrySize){
         entrySize,
         GL_FLOAT,
         GL_FALSE,
+        0,
+        (void*)0
+    );
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    unbind();
+
+    if (attrib == 0) vertexCount = entries;
+
+    vbos.push_back(vbo);
+    attribs.push_back(attrib);
+}
+
+void VAO::addUIntBuffer(int attrib, GLuint* data, int entries, int entrySize){
+
+    bind();
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, entries*entrySize*sizeof(GLuint), data, GL_STATIC_DRAW);
+    glVertexAttribIPointer(
+        attrib,
+        entrySize,
+        GL_UNSIGNED_INT,
         0,
         (void*)0
     );

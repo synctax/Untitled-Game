@@ -1,32 +1,47 @@
 IDIR=../include
 CC=g++
-CFLAGS=-g -std=c++11 -I $(IDIR)
+LINKER=ld
 
-ODIR=obj
+INCLUDES=-I/usr/local/opt/libxml2/include/libxml2
+LIBS=-lxml2 -lGLEW -lglfw -framework OpenGL -L/usr/local/opt/libxml2/lib
 
-LIBS=-framework OpenGL -lglfw -lGLEW
+CFLAGS=-g -std=c++11 -I $(IDIR) $(INCLUDES)
+LFLAGS=-r -v
+
+ODIR=.obj
 
 EXEC=../lib/Engine.o
 
-COMPDIR=Components
-COMPS=Camera Collider Renderable Transform
-_DEPS= Game GameObject ShaderProgram VAO WindowEventManager CollideableManager Component OBJLoader Window
-DEPS=$(patsubst %, $(IDIR)/%.hpp, $(_DEPS) $(COMPS))
-OBJ=$(patsubst %, $(ODIR)/%.o, $(_DEPS)) $(patsubst %, $(COMPDIR)/obj/%.o, $(COMPS))
+DEPDIR=$(ODIR)/.deps
+DEPFLAGS=-MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td
+POSTCOMPILE = mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
 
-$(ODIR)/%.o: %.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS) 
+FINDSRC=$(shell find . -type f -name "*.cpp")
+SRCS=$(FINDSRC:./%.cpp=%.cpp)
+OBJ=$(SRCS:%.cpp=$(ODIR)/%.o)
+DEPS=$(SRCS:%.cpp=$(DEPDIR)/%.d)
 
-$(COMPDIR)/obj/%.o: $(COMPDIR)/%.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+COMPILE.c=$(CC) $(CFLAGS) $(DEPFLAGS) -c
 
-$(EXEC): $(OBJ) 
-	ld -r -v -o $@ $^
-	@echo $^
+%.o : %.cpp
+$(ODIR)/%.o: %.cpp $(DEPDIR)/%.d | $(DEPDIR)
+	mkdir -p "$(@D)"
+	mkdir -p $(patsubst $(ODIR)/%, $(DEPDIR)/%, $(@D))
+	$(COMPILE.c) $< -o $@ 
+	$(POSTCOMPILE)
+
+$(EXEC): $(OBJ)
+	$(LINKER) $(LFLAGS) -o $@ $^ $(LIBS)
+
+$(DEPDIR):
+	@mkdir -p $@
+
+$(DEPS): 
+include $(wildcard $(DEPS))
 
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o
-	rm $(EXEC)
-	rm -f $(COMPDIR)/obj/*.o
+	-rm $(OBJ)
+	-rm $(EXEC)
+	-rm $(DEPS)

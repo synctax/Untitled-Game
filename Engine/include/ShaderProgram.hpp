@@ -23,8 +23,9 @@ public:
     ~ShaderProgram();
     void start();
     void remove();
-    void setUniformVec3(float* data, std::string uniformName);
-    void setUniformMat4(const GLfloat* matrix, const char* uniformName);
+    void setUniformVec3(glm::vec3 data, std::string uniformName);
+    void setUniformMat4(glm::mat4 matrix, std::string uniformName);
+	void setUniformMat4Array(std::vector<glm::mat4> matrices,std::string uniformName);
 private:
     GLuint loadShader(const char* vPath, const char* fPath);
     GLuint programID;

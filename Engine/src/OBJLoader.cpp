@@ -1,5 +1,7 @@
 #include "OBJLoader.hpp"
 
+#include <glm/gtc/type_ptr.hpp>
+
 using namespace Engine;
 
 bool OBJLoader::loadOBJ(VAO* vao, const char* path){
@@ -18,9 +20,7 @@ bool OBJLoader::loadOBJ(VAO* vao, const char* path){
 
 	    char lineHeader[128];
 		int res = fscanf(file, "%s", lineHeader);
-		if (res == EOF)
-		    break;
-
+		if (res == EOF) break;
 
 		if ( strcmp( lineHeader, "v" ) == 0 ){
 			glm::vec3 vertex;
@@ -31,7 +31,6 @@ bool OBJLoader::loadOBJ(VAO* vao, const char* path){
 			fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z );
 			temp_normals.push_back(normal);
 		}else if ( strcmp( lineHeader, "f" ) == 0 ){
-			std::string vertex1, vertex2, vertex3;
 			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
 			int matches = fscanf(file, "%d//%d %d//%d %d//%d\n", &vertexIndex[0], &normalIndex[0], &vertexIndex[1], &normalIndex[1], &vertexIndex[2], &normalIndex[2] );
 			if (matches != 6){
@@ -65,7 +64,7 @@ bool OBJLoader::loadOBJ(VAO* vao, const char* path){
 		out_normals .push_back(normal);
 
 	}
-
+    /*
     GLfloat finalVertices[out_vertices.size()*3];
     GLfloat finalNormals[out_normals.size()*3];
     int j = 0;
@@ -80,8 +79,9 @@ bool OBJLoader::loadOBJ(VAO* vao, const char* path){
 
         j++;
     }
-    vao->addBuffer(0,finalVertices,out_vertices.size(),3);
-    vao->addBuffer(1,finalNormals,out_normals.size(),3);
-	fclose(file);
+    */
+    vao->addFloatBuffer(0,glm::value_ptr(out_vertices[0]),out_vertices.size(),3);
+    vao->addFloatBuffer(1,glm::value_ptr(out_normals[0]),out_normals.size(),3);
+    fclose(file);
     return true;
 }

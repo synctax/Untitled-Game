@@ -1,5 +1,7 @@
 #include "ShaderProgram.hpp"
 
+#include <glm/gtc/type_ptr.hpp>
+
 using namespace Engine;
 
 ShaderProgram::ShaderProgram(const char* vPath, const char* fPath){
@@ -18,14 +20,19 @@ void ShaderProgram::remove(){
     glDeleteProgram(programID);
 }
 
-void ShaderProgram::setUniformVec3(float* data, std::string uniformName){
+void ShaderProgram::setUniformVec3(glm::vec3 v, std::string uniformName){
     GLuint uniformID = glGetUniformLocation(programID, uniformName.c_str());
-    glUniform3fv(uniformID, 1, data);
+    glUniform3fv(uniformID, 1, &v[0]);
 }
 
-void ShaderProgram::setUniformMat4(const GLfloat* matrix, const char* uniformName){
-    GLuint MatrixID = glGetUniformLocation(programID, uniformName);
-    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, matrix);
+void ShaderProgram::setUniformMat4(glm::mat4 matrix, std::string uniformName){
+    GLuint MatrixID = glGetUniformLocation(programID, uniformName.c_str());
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void ShaderProgram::setUniformMat4Array(std::vector<glm::mat4> matrices, std::string uniformName){
+    GLuint uniformID = glGetUniformLocation(programID, uniformName.c_str()); 
+    glUniformMatrix4fv(uniformID, matrices.size(), GL_FALSE, glm::value_ptr(matrices[0]));
 }
 
 GLuint ShaderProgram::loadShader(const char* vPath, const char* fPath){

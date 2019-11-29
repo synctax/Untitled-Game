@@ -38,6 +38,11 @@ void Transform::setRotation(float x, float y, float z){
     calcDirectionVectors();
 }
 
+void Transform::setRotation(glm::quat _rotation){
+    rotation = _rotation;
+    calcDirectionVectors();
+}
+
 void Transform::setScale(float x, float y, float z){
     size = glm::vec3(x, y, z);
 }

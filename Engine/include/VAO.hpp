@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -9,7 +8,7 @@
 
 namespace Engine {
 
-class VAO{
+class VAO {
 private:
     GLuint vaoID;
     int vertexCount;
@@ -20,7 +19,8 @@ public:
     VAO();
     ~VAO();
     inline GLuint getID() const {return vaoID;};
-    void addBuffer(int attrib, GLfloat* data, int entries, int entrySize);
+    void addFloatBuffer(int attrib, GLfloat* data, int entries, int entrySize);
+    void addUIntBuffer(int attrib, GLuint* data, int entries, int entrySize);
     void addElementBuffer(GLshort* data, int entries);
     void draw() const;
     void enableAttribs() const;
