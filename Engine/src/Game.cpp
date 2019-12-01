@@ -39,17 +39,19 @@ void Game::cleanup(){
 
 void Game::mainloop(){
 	double previousTime = glfwGetTime();
+	double pTime = previousTime;
 	int frameCount = 0;
 
 	while(!win->closed()){
 		double currentTime = glfwGetTime();
-		frameCount++;
-		if ( currentTime - previousTime >= 1.0 )
-		{
-			std::cout << frameCount << std::endl;
-			frameCount = 0;
-		}
 		if (currentTime-previousTime > 0.016){
+			frameCount++;
+			if ( currentTime - pTime >= 1.0 )
+			{
+				std::cout << frameCount << std::endl;
+				frameCount = 0;
+				pTime = glfwGetTime();
+			}
 			
 			Time::update();
 

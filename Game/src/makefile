@@ -1,7 +1,7 @@
 IDIR=../include
 ENGINC=../../Engine/include
 CC=g++
-CFLAGS= -std=c++11 -I $(IDIR) -I $(ENGINC) -I/usr/local/opt/libxml2/include/libxml2
+CFLAGS= -g -std=c++11 -I $(IDIR) -I $(ENGINC) -I/usr/local/opt/libxml2/include/libxml2
 
 LIBS=-lGLEW -lglfw -framework OpenGL -lxml2 -L/usr/local/opt/libxml2/lib
 
@@ -25,7 +25,7 @@ $(ODIR)/%.o: %.cpp $(DEPDIR)/%.d | $(DEPDIR)
 	$(POSTCOMPILE)
 
 Game: $(OBJ)
-	$(CC) -o $@ $^ $(LIBS)
+	$(CC) -g -o $@ $^ $(LIBS)
 
 $(DEPS):
 include $(wildcard $(DEPS))

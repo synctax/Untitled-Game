@@ -19,18 +19,18 @@ GameObject::GameObject(std::string _name, bool _isActive){
 }
 
 GameObject::~GameObject(){
-   for(auto & child : children){
-	if(child->created){
-   	    delete child;
-     	}
-   }
-   for(auto & component : components){
-   	delete component;
-   }
-   if(parent != NULL){
+    for(auto & child : children){
+    if(child->created){
+        delete child;
+        }
+    }
+    for(auto & component : components){
+        delete component;
+    }
+    if(parent != NULL){
    	//parent->removeChild(this);
-        //if there is a parent object potentially throw some kind've error
-   }
+    //if there is a parent object potentially throw some kind've error
+    }
 }
 
 void GameObject::attachComponent(Component* c){

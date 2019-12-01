@@ -9,6 +9,7 @@
 #include "Renderable.hpp"
 #include "FirstPersonController.hpp" 
 #include "Animator.hpp"
+#include "Terrain.hpp"
 
 using namespace Engine;
 
@@ -25,8 +26,22 @@ void MyGame::start(){
     robotVAO = new VAO();
     ColladaLoader::loadModel("../Assets/example.dae", robotVAO);
     
+    GameObject* ground = new GameObject("ground", true);
+    ground->attachComponent(new Terrain(glm::ivec3(32*5, 32*5, 32*5), glm::vec3(0.2, 1, 0.2), simple, root, 1));
+    root->addChild(ground);
+
+    GameObject* ground2 = new GameObject("ground2", true);
+    ground2->attachComponent(new Terrain(glm::ivec3(32, 32, 32), glm::vec3(1, 1, 1), simple, root, 1));
+    Transform* ground2Trans = (Transform*)ground2->getComponent("transform");
+    //ground2Trans->setPosition(40, 0, 0);
+    ground2Trans->setScale(1, 1, 1);
+    root->addChild(ground2);
+
     GameObject* player = new GameObject("player", true);
     player->attachComponent(new Renderable(robotVAO, simpleAnimated));
+    
+    GameObject* player2 = new GameObject("player2", true);
+    player2->attachComponent(new Renderable(robotVAO, simple));
     
     Skeleton sk = ColladaLoader::loadSkeleton("../Assets/example.dae");
     Animator* animator = new Animator(sk);
@@ -52,7 +67,9 @@ void MyGame::start(){
     *a = ColladaLoader::loadAnimation("../Assets/example.dae", sk); 
     animator->setAnimation(a);
     
-    root->addChild(player);
+    //root->addChild(player);
+    //root->addChild(ground);
+    //root->addChild(player2);
     camera->attachComponent(new FirstPersonController());
 }
 
