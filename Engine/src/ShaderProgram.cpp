@@ -4,8 +4,18 @@
 
 using namespace Engine;
 
+GLuint ShaderProgram::bound = 0xFFFFFFFF;
+
 ShaderProgram::ShaderProgram(const char* vPath, const char* fPath){
-    programID = loadShader(vPath,fPath);
+    programID = loadShader(vPath,fPath, "", 0, NULL);
+}
+
+ShaderProgram::ShaderProgram(const char* vPath, const char* gPath, const char* fPath){
+    programID = loadShader(vPath, fPath, gPath, 0, NULL);    
+}
+
+ShaderProgram::ShaderProgram(const char* vPath, const char* gPath, const char* fPath, int count, const char** varyings){
+    programID = loadShader(vPath, fPath, gPath, count, varyings);    
 }
 
 ShaderProgram::~ShaderProgram(){
@@ -13,88 +23,118 @@ ShaderProgram::~ShaderProgram(){
 }
 
 void ShaderProgram::start(){
-    glUseProgram(programID);
+    if(bound != programID){
+        glUseProgram(programID);
+        bound = programID;
+    }
 }
 
 void ShaderProgram::remove(){
     glDeleteProgram(programID);
 }
 
+void ShaderProgram::setUniformInt(int data, std::string uniformName){
+    start();
+    GLuint uniformID = glGetUniformLocation(programID, uniformName.c_str());
+    glUniform1i(uniformID, data);
+}
+
+void ShaderProgram::setUniformFloat(float data, std::string uniformName){
+    start();
+    GLuint uniformID = glGetUniformLocation(programID, uniformName.c_str());
+    glUniform1f(uniformID, data);
+}
+
+void ShaderProgram::setUniformIVec3(glm::ivec3 v, std::string uniformName){
+    start();
+    GLuint uniformID = glGetUniformLocation(programID, uniformName.c_str());
+    glUniform3iv(uniformID, 1, &v[0]);
+}
 void ShaderProgram::setUniformVec3(glm::vec3 v, std::string uniformName){
+    start();
     GLuint uniformID = glGetUniformLocation(programID, uniformName.c_str());
     glUniform3fv(uniformID, 1, &v[0]);
 }
 
 void ShaderProgram::setUniformMat4(glm::mat4 matrix, std::string uniformName){
+    start();
     GLuint MatrixID = glGetUniformLocation(programID, uniformName.c_str());
     glUniformMatrix4fv(MatrixID, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
 void ShaderProgram::setUniformMat4Array(std::vector<glm::mat4> matrices, std::string uniformName){
+    start();
     GLuint uniformID = glGetUniformLocation(programID, uniformName.c_str()); 
     glUniformMatrix4fv(uniformID, matrices.size(), GL_FALSE, glm::value_ptr(matrices[0]));
 }
 
-GLuint ShaderProgram::loadShader(const char* vPath, const char* fPath){
-	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-	GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-
-	std::string VertexShaderCode;
-	std::ifstream VertexShaderStream(vPath, std::ios::in);
-	if(VertexShaderStream.is_open()){
+GLuint ShaderProgram::compileShader(GLenum type, const char* source){
+    GLuint shaderID = glCreateShader(type);
+    
+    std::string shaderCode;
+	std::ifstream shaderStream(source, std::ios::in);
+	if(shaderStream.is_open()){
 		std::stringstream sstr;
-		sstr << VertexShaderStream.rdbuf();
-		VertexShaderCode = sstr.str();
-		VertexShaderStream.close();
+		sstr << shaderStream.rdbuf();
+		shaderCode = sstr.str();
+		shaderStream.close();
 	}else{
-		printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", vPath);
+		printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", source);
 		getchar();
 		return 0;
-	}
-
-	std::string FragmentShaderCode;
-	std::ifstream FragmentShaderStream(fPath, std::ios::in);
-	if(FragmentShaderStream.is_open()){
-		std::stringstream sstr;
-		sstr << FragmentShaderStream.rdbuf();
-		FragmentShaderCode = sstr.str();
-		FragmentShaderStream.close();
 	}
 
 	GLint Result = GL_FALSE;
 	int InfoLogLength;
 
-	printf("Compiling shader : %s\n", vPath);
-	char const * VertexSourcePointer = VertexShaderCode.c_str();
-	glShaderSource(VertexShaderID, 1, &VertexSourcePointer , NULL);
-	glCompileShader(VertexShaderID);
+	printf("Compiling shader : %s\n", source);
+	char const * sourcePointer = shaderCode.c_str();
+	glShaderSource(shaderID, 1, &sourcePointer , NULL);
+	glCompileShader(shaderID);
 
-	glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Result);
-	glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
+	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &Result);
+	glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if ( InfoLogLength > 0 ){
-		std::vector<char> VertexShaderErrorMessage(InfoLogLength+1);
-		glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
-		printf("%s\n", &VertexShaderErrorMessage[0]);
+		std::vector<char> shaderErrorMessage(InfoLogLength+1);
+		glGetShaderInfoLog(shaderID, InfoLogLength, NULL, &shaderErrorMessage[0]);
+		printf("%s\n", &shaderErrorMessage[0]);
 	}
 
-	printf("Compiling shader : %s\n", fPath);
-	char const * FragmentSourcePointer = FragmentShaderCode.c_str();
-	glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , NULL);
-	glCompileShader(FragmentShaderID);
+    return shaderID;
+}
 
-	glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &Result);
-	glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-	if ( InfoLogLength > 0 ){
-		std::vector<char> FragmentShaderErrorMessage(InfoLogLength+1);
-		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
-		printf("%s\n", &FragmentShaderErrorMessage[0]);
-	}
+GLuint ShaderProgram::loadShader(const char* vPath, const char* fPath, const char* gPath, unsigned int count, const char** varyings){
+    bool hasGeo = false;
+    if(strlen(gPath) != 0){
+        hasGeo = true; 
+    }
+    
+    GLuint vertexShaderID = compileShader(GL_VERTEX_SHADER, vPath); 
+    GLuint fragmentShaderID = compileShader(GL_FRAGMENT_SHADER, fPath);
+    GLuint geometryShaderID; //this is an optional variable
+    if(vertexShaderID == 0 || fragmentShaderID == 0){
+        return 0;     
+    }
 
-	printf("Linking program\n");
 	GLuint ProgramID = glCreateProgram();
-	glAttachShader(ProgramID, VertexShaderID);
-	glAttachShader(ProgramID, FragmentShaderID);
+    if(varyings){
+        glTransformFeedbackVaryings(ProgramID, count, varyings, GL_SEPARATE_ATTRIBS); 
+    }
+	if(hasGeo){
+        geometryShaderID = compileShader(GL_GEOMETRY_SHADER, gPath);
+        if(geometryShaderID == 0){
+            return 0;    
+        }
+        glAttachShader(ProgramID, geometryShaderID);
+    }
+	printf("Linking program\n");
+    std::cout << ProgramID << std::endl;
+    glAttachShader(ProgramID, vertexShaderID);
+	glAttachShader(ProgramID, fragmentShaderID);
 	glLinkProgram(ProgramID);
+    
+    GLint Result = GL_FALSE;
+    int InfoLogLength;
 
 	glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result);
 	glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength);
@@ -104,11 +144,16 @@ GLuint ShaderProgram::loadShader(const char* vPath, const char* fPath){
 		printf("%s\n", &ProgramErrorMessage[0]);
 	}
 
-	glDetachShader(ProgramID, VertexShaderID);
-	glDetachShader(ProgramID, FragmentShaderID);
+	glDetachShader(ProgramID, vertexShaderID);
+	glDetachShader(ProgramID, fragmentShaderID);
 
-	glDeleteShader(VertexShaderID);
-	glDeleteShader(FragmentShaderID);
+	glDeleteShader(vertexShaderID);
+	glDeleteShader(fragmentShaderID);
+
+    if(hasGeo){
+        glDetachShader(ProgramID, geometryShaderID);
+        glDeleteShader(geometryShaderID);
+    }
 
 	return ProgramID;
 }

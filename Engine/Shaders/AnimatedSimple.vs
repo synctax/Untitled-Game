@@ -11,7 +11,7 @@ uniform mat4 P;
 
 uniform mat4 boneTransforms[100]; 
 
-out vec3 s_c;
+out vec3 vColor;
 out vec3 fragNormal;
 
 void main(){
@@ -27,8 +27,8 @@ void main(){
         totalNormal += worldNormal * jointWeights[i];
     }
     
-    s_c = vec3(jointWeights[0], jointWeights[1], jointWeights[2]);
 
     gl_Position = P*V*M * vec4(totalPosition.xyz, 1.0);
     fragNormal = normalize(V*M * vec4(totalNormal.xyz,0.0)).xyz;
+    vColor = vec3(1.0);
 }

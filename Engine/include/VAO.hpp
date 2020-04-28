@@ -19,7 +19,11 @@ public:
     VAO();
     ~VAO();
     inline GLuint getID() const {return vaoID;};
-    void addFloatBuffer(int attrib, GLfloat* data, int entries, int entrySize);
+	//currently GL buffers take elements, this may check for errors later
+    void addGLFloatBuffer(int attrib, GLuint buffer, int entries, int entrySize);
+	void addGLIntBuffer(int attrib, GLuint buffer, int entries, int entrySize);
+	void addGLElementBuffer(GLuint buffer, int entries);
+	void addFloatBuffer(int attrib, GLfloat* data, int entries, int entrySize);
     void addUIntBuffer(int attrib, GLuint* data, int entries, int entrySize);
     void addElementBuffer(GLshort* data, int entries);
     void draw() const;

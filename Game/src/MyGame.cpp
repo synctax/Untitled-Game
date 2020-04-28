@@ -6,6 +6,7 @@
 #include "OBJLoader.hpp"
 #include "ColladaLoader.hpp"
 
+#include "Collider.hpp"
 #include "Renderable.hpp"
 #include "FirstPersonController.hpp" 
 #include "Animator.hpp"
@@ -25,51 +26,31 @@ void MyGame::start(){
 
     robotVAO = new VAO();
     ColladaLoader::loadModel("../Assets/example.dae", robotVAO);
-    
+     
     GameObject* ground = new GameObject("ground", true);
-    ground->attachComponent(new Terrain(glm::ivec3(32*5, 32*5, 32*5), glm::vec3(0.2, 1, 0.2), simple, root, 1));
+    ground->attachComponent(new Terrain(simple));
     root->addChild(ground);
-
-    GameObject* ground2 = new GameObject("ground2", true);
-    ground2->attachComponent(new Terrain(glm::ivec3(32, 32, 32), glm::vec3(1, 1, 1), simple, root, 1));
-    Transform* ground2Trans = (Transform*)ground2->getComponent("transform");
-    //ground2Trans->setPosition(40, 0, 0);
-    ground2Trans->setScale(1, 1, 1);
-    root->addChild(ground2);
-
+    
     GameObject* player = new GameObject("player", true);
+    Transform* playerTrans = (Transform*)player->getComponent("transform");
+    playerTrans->setScale(.01, 0.01, 0.01);
+
     player->attachComponent(new Renderable(robotVAO, simpleAnimated));
-    
-    GameObject* player2 = new GameObject("player2", true);
-    player2->attachComponent(new Renderable(robotVAO, simple));
-    
+    player->attachComponent(new Collider(1, 8.7, 1));
     Skeleton sk = ColladaLoader::loadSkeleton("../Assets/example.dae");
     Animator* animator = new Animator(sk);
     player->attachComponent(animator);
-    
-    /*
-    for(auto & b : sk.bones){
-        GameObject* bone = new GameObject(b.name, true);
-        Transform* boneTransform = (Transform*)bone->getComponent("transform");
-        glm::mat4 bind = glm::inverse(b.getInverseBind()); 
-        glm::vec3 position = glm::vec3(bind[3]);
-        glm::quat rotation = glm::quat(bind);
-
-        boneTransform->setPosition(position.x, position.y, position.z);
-        boneTransform->setRotation(rotation);
-        boneTransform->setScale(0.1, 0.1, 0.1);
-        bone->attachComponent(new Renderable(cubeVAO, simple));
-        root->addChild(bone);
-    }
-    */
-
-    Animation* a = new Animation(); 
+    Animation* a = new Animation();
     *a = ColladaLoader::loadAnimation("../Assets/example.dae", sk); 
     animator->setAnimation(a);
     
-    //root->addChild(player);
-    //root->addChild(ground);
-    //root->addChild(player2);
+    root->addChild(player);
+
+    //GameObject* obstacle = new GameObject("cube1", true);
+    //obstacle->attachComponent(new Renderable(cubeVAO, simple));
+    //obstacle->attachComponent(new Collider(1, 1, 1));
+    //root->addChild(obstacle);
+
     camera->attachComponent(new FirstPersonController());
 }
 

@@ -38,6 +38,7 @@ Window::Window(const char* title, int _width, int _height) : WindowEventSubscrib
 
 void Window::update() const {
     glfwWaitEventsTimeout(0.016);
+    //glViewport(0, 0, width, height);
     glfwSwapBuffers(window);
     if (!cursorEnabled) glfwSetCursorPos(window, width/2, height/2);
 }

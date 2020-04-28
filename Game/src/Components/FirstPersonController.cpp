@@ -8,7 +8,7 @@ FirstPersonController::FirstPersonController() :
     WindowEventSubscriber::subscribe(WindowEventManager::events::KEYBOARD_INPUT);
     WindowEventSubscriber::subscribe(WindowEventManager::events::CURSOR_POSITION);
 
-    speed = 10;
+    speed = 1;
     mouseSpeed = 0.3;
 
     lastTime = 0;

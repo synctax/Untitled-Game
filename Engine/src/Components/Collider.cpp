@@ -1,6 +1,7 @@
 #include "Collider.hpp"
 #include "CollideableManager.hpp"
 
+#include <iostream>
 
 using namespace Engine;
 
@@ -27,6 +28,7 @@ void Collider::update(){
     std::vector<CollisionEvent> events = CollideableManager::getCollisions(this);   
     for(auto & e : events){
         //notify the parent object
+	std::cout << "Collision with: " << e.obj->getName() << std::endl;
         break;
     } 
 }

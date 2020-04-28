@@ -6,7 +6,8 @@
 
 using namespace Engine;
 
-Renderable::Renderable() : Component("renderable") {
+Renderable::Renderable() 
+ : Component("renderable") {
     isShown = true;
 }
 

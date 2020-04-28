@@ -7,6 +7,7 @@ using namespace Engine;
 VAO::VAO(){
     glGenVertexArrays(1, &vaoID);
     ebo = 0;
+    vertexCount = 0;
 }
 
 VAO::~VAO(){
@@ -15,6 +16,51 @@ VAO::~VAO(){
     for(int i = 0; i < vbos.size(); i++){
         glDeleteBuffers(1,&vbos[i]);
     }
+}
+
+void VAO::addGLFloatBuffer(int attrib, GLuint buffer, int entries, int entrySize){
+    bind();
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glVertexAttribPointer(
+        attrib, 
+        entrySize,
+        GL_FLOAT,
+        GL_FALSE,
+        0,
+        (void*)0
+    );
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    unbind();
+
+    vbos.push_back(buffer);
+    attribs.push_back(attrib);
+}
+
+void VAO::addGLIntBuffer(int attrib, GLuint buffer, int entries, int entrySize){
+    bind();
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glVertexAttribIPointer(
+        attrib,
+        entrySize,
+        GL_INT,
+        0,
+        (void*)0
+    );
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    unbind();
+
+    vbos.push_back(buffer);
+    attribs.push_back(attrib);
+}
+
+void VAO::addGLElementBuffer(GLuint buffer, int entries){
+    vertexCount = entries;
+    
+    bind();
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
+    unbind();
+
+    ebo = buffer;
 }
 
 void VAO::addFloatBuffer(int attrib, GLfloat* data, int entries, int entrySize){
@@ -58,7 +104,7 @@ void VAO::addUIntBuffer(int attrib, GLuint* data, int entries, int entrySize){
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     unbind();
 
-    if (attrib == 0) vertexCount = entries;
+    if (attrib == 0 && !(ebo > 0)) vertexCount = entries;
 
     vbos.push_back(vbo);
     attribs.push_back(attrib);

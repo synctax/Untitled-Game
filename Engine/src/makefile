@@ -31,7 +31,7 @@ $(ODIR)/%.o: %.cpp $(DEPDIR)/%.d | $(DEPDIR)
 	$(POSTCOMPILE)
 
 $(EXEC): $(OBJ)
-	$(LINKER) $(LFLAGS) -o $@ $^ $(LIBS)
+	$(LINKER) $(LFLAGS) -o $@ $^
 
 $(DEPDIR):
 	@mkdir -p $@
