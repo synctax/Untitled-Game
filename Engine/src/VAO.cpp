@@ -126,7 +126,7 @@ void VAO::draw() const{
     bind();
     enableAttribs();
     if (ebo > 0) {
-        std::cout << "What the fuck" << std::endl;
+        //std::cout << "What the fuck" << std::endl;
         glDrawElements(GL_TRIANGLES, vertexCount, GL_UNSIGNED_SHORT, 0);
     }else{
         glDrawArrays(GL_TRIANGLES, 0, vertexCount);

@@ -3,12 +3,12 @@
 uint cornerIndexAFromEdge[12] = uint[12](
     uint(0),
     uint(1),
-    uint(2),
     uint(3),
+    uint(0),
     uint(4),
     uint(5),
-    uint(6),
     uint(7),
+    uint(4),
     uint(0),
     uint(1),
     uint(2),
@@ -18,12 +18,12 @@ uint cornerIndexAFromEdge[12] = uint[12](
 uint cornerIndexBFromEdge[12] = uint[12](
     uint(1),
     uint(2),
+    uint(2),
     uint(3),
-    uint(0),
     uint(5),
     uint(6),
+    uint(6),
     uint(7),
-    uint(4),
     uint(4),
     uint(5),
     uint(6),
@@ -32,13 +32,13 @@ uint cornerIndexBFromEdge[12] = uint[12](
 
 ivec3 cornerPosFromIndex[8] = ivec3[8](
     ivec3(0, 0, 0),
-    ivec3(0, 0, 1),
-    ivec3(0, 1, 0),
-    ivec3(0, 1, 1),
     ivec3(1, 0, 0),
     ivec3(1, 0, 1),
+    ivec3(0, 0, 1),
+    ivec3(0, 1, 0),
     ivec3(1, 1, 0),
-    ivec3(1, 1, 1)
+    ivec3(1, 1, 1),
+    ivec3(0, 1, 1)
 );
 
 layout(location = 0) in uint x8_y8_z8_null4_edge4;

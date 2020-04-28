@@ -13,13 +13,13 @@ void main(){
                       (x8_y8_z8_null4_edge4 >>  8) & uint(0xFF));
     uint edge = x8_y8_z8_null4_edge4 & uint(0x0F);
     pos.x *= 3;
-    if(edge == uint(0)){
+    if(edge == uint(8)){
         pos.x += 1; 
-    } else if(edge == uint(8)){
+    } else if(edge == uint(3)){
         pos.x += 2; 
     }
     //need to transform position to [-1,1]
-    vec3 fpos = vec3(((float(pos.x)/(3*chunkSize))*2.0)-1.0, ((float(pos.y)/chunkSize)*2.0)-1.0, 0.0) + vec3(1.0/(2.0*chunkSize), 1.0/(2.0*chunkSize), 0.0);
+    vec3 fpos = vec3(((float(pos.x)/(3*chunkSize))*2.0)-1.0, ((float(pos.y)/chunkSize)*2.0)-1.0, 0.0) + vec3(1.0/(6.0*chunkSize), 1.0/(2.0*chunkSize), 0.0);
     //vec3 fpos = vec3(float(pos.x)/(3*chunkSize), float(pos.y)/chunkSize, 0.0);
     gl_Position = vec4(fpos, 1.0);
     layer = pos.z;

@@ -2,17 +2,13 @@
 layout(points) in;
 layout(points, max_vertices=15) out;
 
-//edge 3 - i 0, edge 0 - i 1, edge 8 - i 2
+//edge 0 - i 0, edge 8 - i 1, edge 4 - i 2
 const int edgeIndexFromEdge[] = int[12](
-1,0,1,0,1,0,1,0,2,2,2,2
+0,2,0,2,0,2,0,2,1,1,1,1
 );
  
 const int cornerIndexAFromEdge[12] = int[12](
 0,1,3,0,4,5,7,4,0,1,2,3
-);
-
-const int cornerIndexBFromEdge[12] = int[12](
-1,2,2,3,5,6,6,7,4,5,6,7
 );
 
 const ivec3 cornerPos[8] = ivec3[8](
@@ -48,13 +44,12 @@ uint getIndex(ivec3 cellPos, uint edge){
 }
 
 void main(){
-    //uint gnumPolys = uint(caseToNum[c[0]]);
     ivec3 cellPos = ivec3(int(x8_y8_z8_case8[0] >> 24) & 0xFF, 
                           int(x8_y8_z8_case8[0] >> 16) & 0xFF, 
                           int(x8_y8_z8_case8[0] >>  8) & 0xFF);
                           
-    for(uint i = uint(0); i < uint(numPolys[0] * uint(3)); i += uint(1)){
-        index = getIndex(cellPos, texelFetch(triangulation, ivec2(i, c[0]), 0).r);
+    for(int i = 0; i < int(numPolys[0]) * 3; i += 1){
+        index = c[0] * uint(16) + uint(i); //texelFetch(triangulation, ivec2(i, c[0]), 0).r;
         EmitVertex();
         EndPrimitive();
     }

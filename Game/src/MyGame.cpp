@@ -15,7 +15,7 @@
 using namespace Engine;
 
 void MyGame::start(){
-    simpleAnimated = new ShaderProgram("../../Engine/Shaders/animatedSimple.vs", "../../Engine/Shaders/simple.fs");
+    simpleAnimated = new ShaderProgram("../../Engine/Shaders/simple.vs", "../../Engine/Shaders/simple.fs");
     simple = new ShaderProgram("../../Engine/Shaders/simple.vs", "../../Engine/Shaders/simple.fs");
 
     playerVAO = new VAO();
@@ -30,8 +30,9 @@ void MyGame::start(){
     GameObject* ground = new GameObject("ground", true);
     ground->attachComponent(new Terrain(simple));
     root->addChild(ground);
+    ((Engine::Transform*)ground->getComponent("transform"))->setScale(10, 10, 10);
     
-    GameObject* player = new GameObject("player", true);
+    /*GameObject* player = new GameObject("player", true);
     Transform* playerTrans = (Transform*)player->getComponent("transform");
     playerTrans->setScale(.01, 0.01, 0.01);
 
@@ -44,7 +45,7 @@ void MyGame::start(){
     *a = ColladaLoader::loadAnimation("../Assets/example.dae", sk); 
     animator->setAnimation(a);
     
-    root->addChild(player);
+    root->addChild(player);*/
 
     //GameObject* obstacle = new GameObject("cube1", true);
     //obstacle->attachComponent(new Renderable(cubeVAO, simple));

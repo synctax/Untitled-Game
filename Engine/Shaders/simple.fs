@@ -19,7 +19,7 @@ void main(){
 
     vec3 diffuse = clamp(dot(fragNormal,lightDirection),0,1) * diffuseLighting * lightColor;
     vec3 ambient = albedo*ambientLighting;
-    color = (diffuse+ambient) * c * vColor;
+    color = (diffuse+ambient) * c;
     color.rgb = pow(color.rgb, vec3(1.0/gamma));
 }
 
