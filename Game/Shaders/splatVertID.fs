@@ -6,5 +6,5 @@ flat in uint vertexID;
 layout(location = 0) out uint index;
 
 void main(){
-    index = uint(0xFFFFFFFF);
+    index = vertexID;
 }

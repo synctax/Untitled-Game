@@ -14,6 +14,7 @@ class Chunk : public Engine::Component {
 private:
     glm::vec3 position;
     unsigned int size;
+
     Engine::VAO* m_vao = NULL;
     Engine::ShaderProgram* terrainShader;
     //create the shader programs if this is the first instantiation
@@ -24,7 +25,8 @@ private:
     static Engine::ShaderProgram* genVertMarkers;
     static Engine::ShaderProgram* genVerts;
     static Engine::ShaderProgram* splatIndices;
-    static Engine::ShaderProgram* genIndices;
+    static Engine::ShaderProgram* genIndices;    
+    static uint triangulationTexture;
     
     //populate the VAO of the chunk
     void updateChunk();

@@ -21,6 +21,8 @@ public:
     virtual void update(){return;}
     virtual void lateUpdate(){return;}
 
+    virtual void draw(){return;}
+
     virtual Component* clone(){return NULL;} //this will be used to copy GameObjects
 
     std::string getName(){return name;}

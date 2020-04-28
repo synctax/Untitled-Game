@@ -71,7 +71,7 @@ void main(){
     
     //generate the final position in [0, 1]
     //generate the position in this range, because each chunk will be 1 by 1
-    iPosition = mix(v1/ivec3(chunkSize), v2/ivec3(chunkSize), t);
+    iPosition = mix(vec3(v1)/vec3(chunkSize), vec3(v2)/vec3(chunkSize), t);
     
     float d = 1.0/chunkSize;
     vec3 grad;

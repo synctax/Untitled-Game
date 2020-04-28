@@ -64,6 +64,7 @@ void Window::onWindowResize(int width, int height){
     Window* win = (Window*)glfwGetWindowUserPointer(window);
     win->width = width;
     win->height = height;
+    std::cout << width << " : " << height << std::endl;
 }
 
 void Window::onKey(int key, int scancode, int action, int mods){

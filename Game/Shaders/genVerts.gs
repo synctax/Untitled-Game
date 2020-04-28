@@ -14,4 +14,5 @@ void main(){
     position = vertIn[0].iPosition; 
     normal = vertIn[0].iNormal; 
     EmitVertex();
+    EndPrimitive();
 }
