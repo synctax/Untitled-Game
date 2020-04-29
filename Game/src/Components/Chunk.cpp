@@ -6,6 +6,8 @@
 #include "DebugRenderable.hpp"
 #include "Renderable.hpp"
 
+
+
 bool Chunk::first = true;
 //shader programs dec here
 Engine::ShaderProgram* Chunk::genDensities;
@@ -33,10 +35,6 @@ Chunk::Chunk(glm::vec3 _position, unsigned int _size, Engine::ShaderProgram* _te
         splatIndices = new Engine::ShaderProgram("../Shaders/splatVertID.vs", "../Shaders/splatVertID.gs", "../Shaders/splatVertID.fs", 1, df);
         const char* indicesTF[] = {"index"};
         genIndices = new Engine::ShaderProgram("../Shaders/genIndices.vs", "../Shaders/genIndices.gs", "../Shaders/empty.fs", 1, indicesTF);
-
-        //set up the samplers
-        genIndices->setUniformInt(0, "vertexIndices");
-        genIndices->setUniformInt(1, "triangulation");
 
         //create a trinagulation texture
         glGenTextures(1, &triangulationTexture);
@@ -298,14 +296,26 @@ Chunk::Chunk(glm::vec3 _position, unsigned int _size, Engine::ShaderProgram* _te
              0, 9, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ,
              0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-    };
+        };
 
         glBindTexture(GL_TEXTURE_2D, triangulationTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED,  16, 256, 0, GL_RED_INTEGER, GL_BYTE, triangulation);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_R8I, 16, 256, 0, GL_RED_INTEGER, GL_BYTE, triangulation);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        
+        char triangulationPixels[4096];
+        memset(triangulationPixels, 0, 4096*sizeof(char));
+
+        glGetTexImage(GL_TEXTURE_2D, 0, GL_RED_INTEGER, GL_BYTE, triangulationPixels);
+        
+        std::cout << "pixels: ";
+        std::cout << std::dec;
+        for(int i = 0; i < 4096; i++){
+            std::cout << (int)triangulationPixels[i] << " ";
+        }
+        std::cout << "\n";
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 }
@@ -330,15 +340,15 @@ void Chunk::updateChunk(){
     glEnable(GL_RASTERIZER_DISCARD);
 
     //generate filled cells (I think this is working)
+    GLuint filledCellsFeedback;
+    glGenTransformFeedbacks(1, &filledCellsFeedback);
+    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, filledCellsFeedback);
+
     GLuint filledCells;
     glGenBuffers(1, &filledCells);
     glBindBuffer(GL_ARRAY_BUFFER, filledCells);
     glBufferData(GL_ARRAY_BUFFER,csp1*csp1*csp1*sizeof(GLuint),NULL,GL_STATIC_READ);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    GLuint filledCellsFeedback;
-    glGenTransformFeedbacks(1, &filledCellsFeedback);
-    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, filledCellsFeedback);
 
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, filledCells);
     genFilledCells->start();
@@ -346,6 +356,7 @@ void Chunk::updateChunk(){
     
     //pass textures to draw
     Engine::VAO emptyVao = Engine::VAO();
+    
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, densityTexture);
 
@@ -368,30 +379,28 @@ void Chunk::updateChunk(){
     
     //DEBUG PRINT:
     std::cout << numCells << std::endl;
-    /*
+    
     unsigned int filledCellsData[numCells];
     glBindBuffer(GL_ARRAY_BUFFER, filledCells);
     glGetBufferSubData(GL_ARRAY_BUFFER,0,numCells*sizeof(GLuint), filledCellsData);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     std::cout << "Filled Cells: " << std::hex;
-    for(int i = 0; i < numCells; i++){
+    for(int i = 0; i < 100; i++){
         std::cout << filledCellsData[i] << " ";
     }
     std::cout << std::dec << std::endl;
-    */
     
     //generate vertex marker list (sparse list of vertices)
     GLuint vertMarkerFeedback;
     glGenTransformFeedbacks(1, &vertMarkerFeedback);
+    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vertMarkerFeedback);
     
     GLuint vertMarkers;
     glGenBuffers(1, &vertMarkers);
-    
     glBindBuffer(GL_ARRAY_BUFFER, vertMarkers);
     glBufferData(GL_ARRAY_BUFFER,3*numCells*sizeof(GLuint),NULL,GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
-    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vertMarkerFeedback);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vertMarkers);
     
     Engine::VAO cellsVao = Engine::VAO();
@@ -410,11 +419,8 @@ void Chunk::updateChunk(){
     glEndTransformFeedback();
     
     glFlush();
-    
-    glDisable(GL_RASTERIZER_DISCARD);
 
     //DEBUG
-    glFlush();
     /* 
     unsigned int vertMarkersData[3*numCells];
     
@@ -430,9 +436,13 @@ void Chunk::updateChunk(){
     
     glDisable(GL_RASTERIZER_DISCARD);
     */
-    
+
     //generate complete vertices
     //ideally to conserve memory these buffers should of size numVertMarkers*3
+    GLuint vertFeedback;
+    glGenTransformFeedbacks(1, &vertFeedback);
+    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, vertFeedback);
+    
     GLuint vertPositions;
     glGenBuffers(1, &vertPositions);
     GLuint vertNormals;
@@ -447,6 +457,7 @@ void Chunk::updateChunk(){
     
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vertPositions);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 1, vertNormals);
+    
     genVerts->start();
     genVerts->setUniformInt(size, "chunkSize");
 
@@ -547,6 +558,9 @@ void Chunk::updateChunk(){
     
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, indices);
     genIndices->start();
+    //set up the samplers
+    genIndices->setUniformInt(0, "vertexIndices");
+    genIndices->setUniformInt(1, "triangulation");
     //pass indice texture to compute
     
     glActiveTexture(GL_TEXTURE0);
@@ -558,7 +572,7 @@ void Chunk::updateChunk(){
     GLuint indiceSizeQuery;
     glGenQueries(1, &indiceSizeQuery);
     glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, indiceSizeQuery);
-    
+
     glBeginTransformFeedback(GL_POINTS);
     cellsVao.bind();
     cellsVao.enableAttribs();
@@ -578,18 +592,20 @@ void Chunk::updateChunk(){
     //DEBUG PRINT:
     std::cout << numIndices << std::endl;
 
-    unsigned int cpuIndices[10];
+    unsigned int cpuIndices[100];
     
     glBindBuffer(GL_ARRAY_BUFFER, indices);
-    glGetBufferSubData(GL_ARRAY_BUFFER, 0, 10*sizeof(GLuint), cpuIndices);
+    glGetBufferSubData(GL_ARRAY_BUFFER, 0, 100*sizeof(GLuint), cpuIndices);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    //std::cout << std::hex;
     for(int i = 0; i < 100; i++){
         std::cout << "index: " << cpuIndices[i] << std::endl;
     }
+    //std::cout << std::dec;
 
     //DEBUG:
     /*Engine::GameObject* debugDense = new Engine::GameObject("debugDensity", true);
-    debugDense->attachComponent(new DebugRenderable(densityTexture, genDensities));
+    debugDense->attachComponent(new DebugRenderable(indiceTexture, genDensities));
     object->addChild(debugDense);*/
     
     if(m_vao != NULL){

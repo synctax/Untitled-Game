@@ -30,7 +30,7 @@ void MyGame::start(){
     GameObject* ground = new GameObject("ground", true);
     ground->attachComponent(new Terrain(simple));
     root->addChild(ground);
-    ((Engine::Transform*)ground->getComponent("transform"))->setScale(10, 10, 10);
+    //((Engine::Transform*)ground->getComponent("transform"))->setScale(10, 10, 10);
     
     /*GameObject* player = new GameObject("player", true);
     Transform* playerTrans = (Transform*)player->getComponent("transform");
