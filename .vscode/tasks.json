@@ -1,0 +1,30 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build-Engine",
+            "type": "shell",
+            "command": "cd Engine/src; make"
+        },
+        {
+            "label": "Build-Game",
+            "type": "shell",
+            "command": "cd Game/src; make"
+        },
+        {
+            "label": "Build-All",
+            "type": "shell",
+            "command": "cd Engine/src; make; cd ../../Game/src; make",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run-Game",
+            "type": "shell",
+            "command": "cd Game/src; ./Game",
+            "problemMatcher": []
+            
+        }
+    ]
+}

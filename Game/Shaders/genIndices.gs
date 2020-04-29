@@ -22,8 +22,8 @@ const ivec3 cornerPos[8] = ivec3[8](
     ivec3(0, 1, 1)
 );
 
-uniform usampler3D vertexIndices;
 uniform usampler2D triangulation;
+uniform usampler3D vertexIndices;
 
 in uint x8_y8_z8_case8[];
 in uint c[];
@@ -37,16 +37,18 @@ uint getIndex(ivec3 cellPos, uint edge){
     //moves position to the start of edge
     position += cornerPos[cornerIndexAFromEdge[edge]];
     position.x = position.x*3 + edgeIndexFromEdge[edge];
-    return uint(cornerIndexAFromEdge[edge]);//texelFetch(vertexIndices, position, 0).r;
+    return texelFetch(vertexIndices, position, 0).r;
 }
 
 void main(){
+    float size = 33;
     ivec3 cellPos = ivec3(int(x8_y8_z8_case8[0] >> 24) & 0xFF, 
                           int(x8_y8_z8_case8[0] >> 16) & 0xFF, 
                           int(x8_y8_z8_case8[0] >>  8) & 0xFF);
-                          
+                      
     for(int i = 0; i < int(numPolys[0]) * 3; i += 1){
-        index = getIndex(cellPos, uint(texelFetch(triangulation, ivec2(i, c[0]), 0).r));
+        uint t = texelFetch(vertexIndices, cellPos, 0).r;
+        index = texelFetch(triangulation, ivec2(i, c[0]), 0).r;
         EmitVertex();
         EndPrimitive();
     }

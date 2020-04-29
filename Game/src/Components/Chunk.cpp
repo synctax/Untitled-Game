@@ -39,7 +39,7 @@ Chunk::Chunk(glm::vec3 _position, unsigned int _size, Engine::ShaderProgram* _te
         //create a trinagulation texture
         glGenTextures(1, &triangulationTexture);
 
-        const char triangulation[4096] = {
+        const int triangulation[4096] = {
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ,
              0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ,
              0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 ,
@@ -299,7 +299,7 @@ Chunk::Chunk(glm::vec3 _position, unsigned int _size, Engine::ShaderProgram* _te
         };
 
         glBindTexture(GL_TEXTURE_2D, triangulationTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_R8I, 16, 256, 0, GL_RED_INTEGER, GL_BYTE, triangulation);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_R32I, 16, 256, 0, GL_RED_INTEGER, GL_INT, triangulation);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -559,15 +559,15 @@ void Chunk::updateChunk(){
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, indices);
     genIndices->start();
     //set up the samplers
-    genIndices->setUniformInt(0, "vertexIndices");
-    genIndices->setUniformInt(1, "triangulation");
+    genIndices->setUniformInt(0, "triangulation");
+    genIndices->setUniformInt(1, "vertexIndices");
     //pass indice texture to compute
     
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_3D, indiceTexture);
+    glBindTexture(GL_TEXTURE_2D, triangulationTexture);
 
     glActiveTexture(GL_TEXTURE0 + 1);
-    glBindTexture(GL_TEXTURE_2D, triangulationTexture);
+    glBindTexture(GL_TEXTURE_3D, indiceTexture);
     
     GLuint indiceSizeQuery;
     glGenQueries(1, &indiceSizeQuery);
@@ -597,9 +597,9 @@ void Chunk::updateChunk(){
     glBindBuffer(GL_ARRAY_BUFFER, indices);
     glGetBufferSubData(GL_ARRAY_BUFFER, 0, 100*sizeof(GLuint), cpuIndices);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    //std::cout << std::hex;
+    std::cout << "indices: "; //<< std::hex;
     for(int i = 0; i < 100; i++){
-        std::cout << "index: " << cpuIndices[i] << std::endl;
+        std::cout << cpuIndices[i] << " ";
     }
     //std::cout << std::dec;
 

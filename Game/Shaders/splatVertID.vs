@@ -19,7 +19,8 @@ void main(){
         pos.x += 2; 
     }
     //need to transform position to [-1,1]
-    vec3 fpos = vec3(((float(pos.x)/(3*chunkSize))*2.0)-1.0, ((float(pos.y)/chunkSize)*2.0)-1.0, 0.0) + vec3(1.0/(6.0*chunkSize), 1.0/(2.0*chunkSize), 0.0);
+    vec3 fpos = vec3(((float(pos.x)/(3*chunkSize))*2.0)-1.0, ((float(pos.y)/chunkSize)*2.0)-1.0, 0.0) 
+              + vec3(1.0/(6.0*chunkSize), 1.0/(2.0*chunkSize), 0.0);
     //vec3 fpos = vec3(float(pos.x)/(3*chunkSize), float(pos.y)/chunkSize, 0.0);
     gl_Position = vec4(fpos, 1.0);
     layer = pos.z;
