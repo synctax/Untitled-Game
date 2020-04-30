@@ -476,7 +476,7 @@ void Chunk::updateChunk(){
     
     //DEBUG:
     glFlush();
-    /* 
+    
     float vertData[3*3*numCells];
 
     glBindBuffer(GL_ARRAY_BUFFER, vertPositions);
@@ -487,7 +487,7 @@ void Chunk::updateChunk(){
         std::cout << "(" << vertData[i] << ", " << vertData[i+1] << ", " << vertData[i+2] << ") "; 
     }
     std::cout << std::endl;
-    */
+    
     //splat verts
     glDisable(GL_RASTERIZER_DISCARD);
     
@@ -592,13 +592,13 @@ void Chunk::updateChunk(){
     //DEBUG PRINT:
     std::cout << numIndices << std::endl;
 
-    unsigned int cpuIndices[100];
+    unsigned int cpuIndices[1000];
     
     glBindBuffer(GL_ARRAY_BUFFER, indices);
-    glGetBufferSubData(GL_ARRAY_BUFFER, 0, 100*sizeof(GLuint), cpuIndices);
+    glGetBufferSubData(GL_ARRAY_BUFFER, 0, 1000*sizeof(GLuint), cpuIndices);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    std::cout << "indices: "; //<< std::hex;
-    for(int i = 0; i < 100; i++){
+    std::cout << "indices: ";
+    for(int i = 0; i < 1000; i++){
         std::cout << cpuIndices[i] << " ";
     }
     //std::cout << std::dec;
