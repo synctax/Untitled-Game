@@ -37,7 +37,7 @@ uint getIndex(ivec3 cellPos, uint edge){
     //moves position to the start of edge
     position += cornerPos[cornerIndexAFromEdge[edge]];
     position.x = position.x*3 + edgeIndexFromEdge[edge];
-    return uint(cornerIndexAFromEdge[edge]);//texelFetch(vertexIndices, position, 0).r;
+    return texelFetch(vertexIndices, position, 0).r;
 }
 
 void main(){
